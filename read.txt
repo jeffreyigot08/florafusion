@@ -1,0 +1,38 @@
+ // public function displayReview()
+    // {
+    //     return "SELECT r.*, u.shop_name, u.permanent_add, u.image AS userImage, p.product_ID AS p_id
+    //     FROM reviews AS r
+    //     INNER JOIN user_table AS u ON r.customer_id = u.id
+    //     INNER JOIN products AS p ON r.product_id = p.product_ID
+    //     WHERE r.product_id = ?";
+    // }
+
+
+
+     // public function doAddReviews()
+    // {
+    //     return "INSERT INTO `reviews`(`customer_id`, `seller_id`, `product_id`, `rating`, `review_text`, `review_date`) VALUES (?,?,?,?,?,?)";
+    // }
+
+       // public function getPurch()
+    // {
+    //     return "SELECT t.*, p.product_name, p.product_image
+    //     FROM `transaction` as t
+    //     INNER JOIN products AS p ON t.customer_id = p.userID
+    //     WHERE t.`status` = 1 AND t.`customer_id` = ?";
+    // }
+
+    // function displayReview(){
+//     $backend = new backend();
+//     echo $backend->getDisplayReview($_POST['product_ID']);
+// }
+
+// function addReviews(){
+//     $backend = new backend();
+//     echo $backend->doAddReviews($_POST['rating'],$_POST['reviewText'],$_POST['seller_id'],$_POST['product_id'],$_SESSION['id']);
+// }
+
+// function addReviews(){
+//     $backend = new backend();
+//     echo $backend->doAddReviews($_POST['rating'],$_POST['reviewText'],$_POST['seller_id'],$_POST['product_id'],$_SESSION['id']);
+// }
