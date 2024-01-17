@@ -8,7 +8,7 @@ CUSTOMER AND SELLER
 - purchase hitory
 * change the image and name in the rating modal dapat plant image ug plant name naka butang - fix
 - home best selling store
-* dapat 3 ray mo maximum ma display
+* dapat 3 ray mo maximum ma display - fix
 * ma display ang best store if taas ang ratings sa tanan plants sa seller - fix 
 -chats
 * profile sa customer and seller 
@@ -30,7 +30,7 @@ seller
 - order
 * add buttons packed, to ship, to recieve, delivered - fix
 * change also the status - fix
-* add plant image in table 
+* add plant image in table - fix
 
 
 

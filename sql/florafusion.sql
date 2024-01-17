@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 25, 2023 at 01:03 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jan 17, 2024 at 11:12 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `florafusion`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `best_store`
+--
+
+CREATE TABLE `best_store` (
+  `store_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `best_store`
+--
+
+INSERT INTO `best_store` (`store_id`, `seller_id`, `customer_id`, `rating`, `date`) VALUES
+(1, 39, 36, 5, '2024-01-15'),
+(2, 39, 36, 5, '2024-01-15'),
+(3, 39, 36, 2, '2024-01-16');
 
 -- --------------------------------------------------------
 
@@ -121,12 +144,13 @@ CREATE TABLE `my_cart` (
 --
 
 INSERT INTO `my_cart` (`cart_id`, `seller_id`, `customer_id`, `product_id`, `product_price`, `quantity`, `is_checkout`) VALUES
-(22, 37, 36, 66, 360, 1, 1),
-(23, 37, 42, 71, 400, 1, 1),
+(23, 37, 42, 71, 400, 7, 1),
 (24, 37, 37, 70, 200, 1, 0),
 (25, 37, 37, 71, 400, 1, 0),
 (26, 39, 42, 62, 300, 1, 1),
-(27, 39, 42, 64, 360, 10, 1);
+(27, 39, 42, 64, 360, 10, 1),
+(28, 37, 42, 66, 360, 1, 1),
+(32, 39, 39, 64, 360, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -141,6 +165,7 @@ CREATE TABLE `orders` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `total_amount` decimal(10,2) DEFAULT NULL,
+  `orders_image` text NOT NULL,
   `order_date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -148,11 +173,11 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `order_date`) VALUES
-(12, 36, 37, 66, 1, 360.00, '2023-12-22 17:55:58'),
-(13, 42, 37, 71, 1, 400.00, '2023-12-22 18:15:46'),
-(14, 42, 39, 62, 1, 300.00, '2023-12-23 10:19:13'),
-(15, 42, 39, 64, 1, 360.00, '2023-12-23 10:33:03');
+INSERT INTO `orders` (`order_id`, `customer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `orders_image`, `order_date`) VALUES
+(16, 36, 37, 66, 1, 360.00, '', '2024-01-16 06:58:20'),
+(17, 36, 37, 70, 1, 200.00, '', '2024-01-17 01:47:49'),
+(18, 36, 37, 67, 1, 250.00, '', '2024-01-17 01:48:12'),
+(19, 36, 37, 70, 1, 200.00, '', '2024-01-17 01:48:42');
 
 -- --------------------------------------------------------
 
@@ -181,10 +206,11 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`product_ID`, `userID`, `product_image`, `product_image2`, `product_image3`, `product_name`, `product_qty`, `product_price`, `product_des`, `status`, `created_date`) VALUES
 (62, 39, 'cactus.jpg', 'cactus1.jpg', 'cactus2.jpg', 'Cactus', 100, 300, 'Cactuses, or cacti, are desert plants.', 1, '2023-12-20 03:08:27'),
 (64, 39, 'Spider Plant.jpg', 'Spider Plant1.jpg', 'Spider Plant2.jpg', 'Spider Plant', 90, 360, 'This herbaceous plant, has narrow, strap-shaped leaves. ', 1, '2023-12-20 03:14:12'),
-(66, 37, 'Lavender.jpg', 'Lavender1.jpg', 'Lavender2.jpg', 'Lavender', 400, 360, 'A medium purple or a light pinkish-purple. ', 1, '2023-12-20 03:19:40'),
-(67, 37, 'Orchids.jpg', 'Orchids1.jpg', 'Orchids2.jpg', 'Orchids', 500, 250, 'Plants prized for their beautiful and unique flowers.', 1, '2023-12-20 03:21:00'),
-(70, 37, 'Sun Flower.jpg', 'Sun FLower1.jpg', 'Sun Flower2.jpg', 'Sun Flower', 340, 200, 'Pretty, bright yellow flowering plants known for their striking appearance.', 1, '2023-12-22 17:53:27'),
-(71, 37, 'Venus Flytrap.jpg', 'Venus Flytrap1.jpg', 'Venus Flytrap2.jpg', 'Venus Flytrap', 578, 400, 'Each leaf has a flat stalk and ends in a trap.', 1, '2023-12-22 17:55:04');
+(66, 37, 'Lavender.jpg', 'Lavender1.jpg', 'Lavender2.jpg', 'Lavender', 399, 360, 'A medium purple or a light pinkish-purple. ', 1, '2024-01-16 06:58:20'),
+(67, 37, 'Orchids.jpg', 'Orchids1.jpg', 'Orchids2.jpg', 'Orchids', 499, 250, 'Plants prized for their beautiful and unique flowers.', 1, '2024-01-17 01:48:12'),
+(70, 37, 'Sun Flower.jpg', 'Sun FLower1.jpg', 'Sun Flower2.jpg', 'Sun Flower', 338, 200, 'Pretty, bright yellow flowering plants known for their striking appearance.', 1, '2024-01-17 01:48:42'),
+(71, 37, 'Venus Flytrap.jpg', 'Venus Flytrap1.jpg', 'Venus Flytrap2.jpg', 'Venus Flytrap', 0, 400, 'Each leaf has a flat stalk and ends in a trap.', 1, '2024-01-15 10:34:52'),
+(72, 42, 'Philodendron1.jpg', 'Chrysanthemum1.jpg', 'Chrysanthemum2.jpg', 'Lavender', 123, 123, '123', 1, '2024-01-17 01:34:55');
 
 -- --------------------------------------------------------
 
@@ -231,6 +257,7 @@ CREATE TABLE `transaction` (
   `amount` int(11) NOT NULL,
   `paymethod` int(11) NOT NULL,
   `image` text NOT NULL,
+  `plant_image` text NOT NULL,
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -239,11 +266,11 @@ CREATE TABLE `transaction` (
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `customer_id`, `seller_id`, `product_id`, `amount`, `paymethod`, `image`, `status`, `date`) VALUES
-(12, 36, 37, 66, 360, 2, 'gcash.jpg', 1, '2023-12-23 06:12:33'),
-(13, 42, 37, 71, 400, 1, 'gcash.jpg', 1, '2023-12-23 06:08:08'),
-(14, 42, 39, 62, 300, 1, 'Chrysanthemum2.jpg', 1, '2023-12-23 10:34:19'),
-(15, 42, 39, 64, 360, 1, 'gcash.jpg', 0, '2023-12-23 10:33:03');
+INSERT INTO `transaction` (`id`, `customer_id`, `seller_id`, `product_id`, `amount`, `paymethod`, `image`, `plant_image`, `status`, `date`) VALUES
+(14, 42, 39, 62, 300, 1, 'Chrysanthemum2.jpg', 'cactus.jpg', 1, '2024-01-17 05:09:32'),
+(15, 42, 39, 64, 360, 1, 'gcash.jpg', 'Spider Plant.jpg', 0, '2024-01-17 05:09:34'),
+(17, 36, 37, 70, 200, 2, 'Chrysanthemum1.jpg', 'Sun Flower.jpg', 2, '2024-01-17 10:08:21'),
+(18, 36, 37, 67, 250, 2, 'gcash.jpg', 'Orchids.jpg', 4, '2024-01-17 09:53:18');
 
 -- --------------------------------------------------------
 
@@ -275,7 +302,7 @@ CREATE TABLE `user_table` (
 --
 
 INSERT INTO `user_table` (`id`, `name`, `email`, `password`, `role`, `status`, `disabled`, `image`, `qr_image`, `current_add`, `permanent_add`, `shop_name`, `contact_no`, `gender`, `birthday`, `created_date`) VALUES
-(36, 'Janah Darielyn Germo', 'jd@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 2, 1, 0, 'jd.jpg', 'cod_qr.png', 'Dapitan Cordova', 'Cebu ', 'Unique Plants', '09999728571', 2, '2023-12-19', '2023-12-19 02:23:56'),
+(36, 'Janah Darielyn Germo', 'jd@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 1, 0, 'jd.jpg', 'cod_qr.png', 'Dapitan Cordova', 'Cebu ', 'Unique Plants', '09999728571', 2, '2023-12-19', '2023-12-19 02:23:56'),
 (37, 'JD Seller', 'seller@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 2, 1, 0, 'jd.jpg', 'cod_qr.png', 'Cebu City', 'Inyuha Cebu CIty', 'Purplebox Garden', '0987654321', 2, '2023-12-19', '2023-12-19 02:25:58'),
 (38, 'JD Admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 0, 1, 0, 'janah.jpg', '', 'Cebu City', 'Cebu City', '', '09876521234', 2, '2023-12-19', '2023-12-19 02:27:15'),
 (39, 'Seller 2', 'seller1@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 2, 1, 0, 'jd.jpg', 'cod_qr.png', 'Cebu City', 'cebu', 'nice garden', '09876521234', 2, '2023-12-19', '2023-12-19 13:08:54'),
@@ -305,13 +332,21 @@ INSERT INTO `wishlist` (`wishlist_id`, `customer_id`, `product_id`) VALUES
 (124, 42, 67),
 (125, 42, 66),
 (126, 36, 70),
-(127, 36, 71),
 (128, 36, 66),
-(131, 42, 62);
+(131, 42, 62),
+(132, 36, 64),
+(134, 36, 62),
+(135, 36, 71);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `best_store`
+--
+ALTER TABLE `best_store`
+  ADD PRIMARY KEY (`store_id`);
 
 --
 -- Indexes for table `complaints`
@@ -387,6 +422,12 @@ ALTER TABLE `wishlist`
 --
 
 --
+-- AUTO_INCREMENT for table `best_store`
+--
+ALTER TABLE `best_store`
+  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `complaints`
 --
 ALTER TABLE `complaints`
@@ -408,19 +449,19 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `my_cart`
 --
 ALTER TABLE `my_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -432,7 +473,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `user_table`
@@ -444,7 +485,7 @@ ALTER TABLE `user_table`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

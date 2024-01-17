@@ -1,9 +1,12 @@
 <?php
 session_start();
+$shopName = $_SESSION['shop_name'];
 if (!isset($_SESSION['id'])) {
     header('location: index.php');
 }
+// var_dump($_SESSION);
 $role = $_SESSION['role'];
+$role = $_SESSION['id'];
 ?>
 
 <!DOCTYPE html>
@@ -15,13 +18,9 @@ $role = $_SESSION['role'];
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="../assets/css/tailwind.css">
-    <link rel="stylesheet" href="../assets/css/sweetalert.css">
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-    <script src="../assets/css/jquery.js"></script>
-    <title>Orders</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Orderlist</title>
 </head>
 
 <body>
@@ -51,6 +50,7 @@ $role = $_SESSION['role'];
                             <span class="text-white font-medium hover:text-gray-300">Orders</span>
                         </a>
                     </li>
+
                     <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
                         <a href="../Seller/sales_rep.php" class="flex items-center space-x-2">
                             <i class="fas fa-chart-bar h-5 w-5 fill-current text-white"></i>
@@ -63,12 +63,12 @@ $role = $_SESSION['role'];
                             <span class="text-white font-medium hover:text-gray-300">Sold History</span>
                         </a>
                     </li>
-                <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
-                    <a href="../Chats/chat.php" class="flex items-center space-x-2">
-                        <i class="fas fa-comments h-5 w-5 fill-current text-white"></i>
-                        <span class="text-white font-medium hover:text-gray-300">Chat Support</span>
-                    </a>
-                </li>
+                    <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
+                        <a href="../Chats/chat.php" class="flex items-center space-x-2">
+                            <i class="fas fa-comments h-5 w-5 fill-current text-white"></i>
+                            <span class="text-white font-medium hover:text-gray-300">Chat Support</span>
+                        </a>
+                    </li>
                     <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
                         <a href="../includes/logout.php" class="flex items-center space-x-2">
                             <i class="fas fa-sign-out-alt h-5 w-5 text-white"></i>
@@ -80,153 +80,102 @@ $role = $_SESSION['role'];
         </div>
 
         <div class="flex-1 bg-white p-4 shadow-md">
-            <button id="profile-menu-button" class="text-4xl text-green-400 absolute top-0 right-0 mr-4 mt-4"><img src="<?php echo isset($_SESSION['image']) ? '../assets/img/' . $_SESSION['image'] : ''; ?>" alt="default" style="height:35px;width:35px;border-radius: 40px;"></i></button>
-            <!-- <i class="fas fa-user-circle text-4xl text-green-400 absolute top-0 right-0 mr-4 mt-4"></i> -->
-            <div class="flex justify-between items-center mb-4 mt-20">
-                <div class="mb-4">
-                    <div class="flex space-x-4">
-                        <!-- <button class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md">All
-                            Orders</button>
-                        <button
-                            class="bg-yellow-300 hover:bg-yellow-400 text-yellow-700 px-4 py-2 rounded-md">Pending</button>
-                        <button
-                            class="bg-green-300 hover:bg-green-400 text-green-700 px-4 py-2 rounded-md">Completed</button> -->
+                <button id="profile-menu-button" class="text-4xl text-green-400 absolute top-0 right-0 mr-4 mt-4"><img src="<?php echo isset($_SESSION['image']) ? '../assets/img/' . $_SESSION['image'] : ''; ?>" alt="default" style="height:35px;width:35px;border-radius: 40px;"></i></button>
+                  <div class="flex justify-between items-center mt-28">
+                    <div class="relative ml-auto">
                     </div>
                 </div>
-                <div class="relative ml-auto">
-                    <!-- <input type="text" v-model="search"
-                        class="border border-gray-300 rounded-md px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring focus:border-blue-500"
-                        placeholder="Search"> -->
-                </div>
-            </div>
 
-            <table id="der" class="w-1/2 min-w-full divide-y divide-gray-800 border border-gray-800">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Plant Image</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Order ID</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Name</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Date</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Price</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Payment Method</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="orders" class="bg-white divide-y divide-gray-200">
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="modal fade view-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h2 class="text-2xl text-center font-semibold mb-4">Order Details</h2>
-                    
-                    <div class=" d-flex">
-                        <p><strong>Order Number: &nbsp; <p class="d-flex" id="orderNumber"></p></strong></p>
-                    </div>
-
-                  
-                    <div class="d-flex">
-                        <p><strong>Date: &nbsp;</strong>
-                        <p class="d-flex" id="orderDate"></p>
-                    </div>
-
-                    
-                    <div class="d-flex">
-                        <p><strong>Customer Name: &nbsp;</strong>
-                        <p id="cname"></p>
-                        </p>
-                    </div>
-                    
-                    <div class="d-flex">
-                        <p><strong>Address: &nbsp;</strong>
-                        <p id="add"></p>
-                        </p>
-                    </div>
-             
-                    <div class="d-flex">
-                        <p><strong>Contact Number: &nbsp;</strong>
-                        <p id="cnum"></p>
-                        </p>
-                    </div>
-                  
-                    <div>
-                        <p><strong>Proof Of Payment &nbsp;</strong></p>
-                        <img :src="'/florafusionmarket/assets/img/' + image" id="image" class="rounded" style="height:100px; width:150px; object-fit:cover !important;">
-                    </div>
-                    &nbsp;
-
-            
-                    <table id="product-info" class="table-auto w-full mb-4">
+                <div id="CusOrders">
+                    <table id="ordersTable">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2">Product Name</th>
-                                <th class="px-4 py-2">Quantity</th>
-                                <th class="px-4 py-2">Price</th>
-                                <th class="px-4 py-2">Proof Of Payment</th>
-                                <th class="px-4 py-2">Total Price</th>
+                            <td>Order Number</td>
+                            <td>Order Image</td>
+                            <td>Name</td>
+                            <td>Date</td>
+                            <td>Amount</td>
+                            <td>Payment Method</td>
+                            <td>Payment Status</td>
+                            <td>ACTION</td>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr  v-for="(o, index) in orders">
+                                <td>
+                                {{index + 1}}
+                                </td>
+                                <td>
+                                <img :src="'../assets/img/' + o.image" class="your-image-class w-40 ml-8 mb-3 mt-3">
+                                </td>
+                                <td>
+                                {{o.name}}
+                                </td>
+                                <td>
+                                {{o.date}}
+                                </td>
+                                <td>
+                                {{o.amount}}
+                                </td>
+                                <td>
+                                {{o.payment == 1 ? 'GCASH' : o.payment == 2 ? 'COD'  :  'NO PAYMENT'}}
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill bg-primary">
+                                    {{o.status == 0 ? 'PENDING' : o.status == 1 ? 'DELIVER' : o.status == 2 ? 'PACKED' : o.status == 3 ? 'SHIPPED' : o.status == 4 ? 'RECEIVE'  :  'DONE'}}
+                                    </span>
+                    
+                                </td>
+                                <td>
+                                <button class="btn view-order"  @click="fnGetDataProducts(o.id)" data-bs-toggle="modal" data-bs-target="#exampleModal">👁️</button>
+                                <button class="btn delete-order"  @click="DeleteOrders(o.id)">🗑️</button>
+                             </td>
+                            </tr>
                         </tbody>
                     </table>
-                    <div class="mb-4" id="payDetails">
 
+                    <div class="modal fade theme-modal" id="exampleModal" tabindex="-1"  aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header d-block text-center">
+                                    <h5 class="modal-title w-100 text-primary">Orders Details</h5>
+                                </div>
+                            <div class="modal-body p-4">  
+                                <form>
+                                    <div>
+                                        <p>Order Number: {{id}}</p>
+                                        <p>Order Date: {{date}}</p>
+                                        <p>Customer Name: {{name}}</p>
+                                        <p>Address: {{address}}</p>
+                                        <p>Contact Number: {{contact_no}}</p>
+                                        <p>Proof Of Payment <a :href="'../assets/img/' + image" target="_blank"><img :src="'../assets/img/' + image" class="your-image-class w-40 ml-8 mb-3 mt-3"alt="Product Image"></p></a></td>
+                                        <p>Quantity : {{quantity}}</p>
+                                        <p>PRICE : {{price}}</p>
+                                        <p>TOTAL : {{amount}}</p>                            
+                                        <button v-if="status == 0" @click.prevent="StatusDeliver(id)" class="btn btn-info text-light btn-md fw-bold float-end mt-3">Deliver</button>
+                                        <button v-if="status == 1" @click.prevent="StatusPacked(id)" class="btn btn-success text-light btn-md fw-bold float-end mt-3">Packed</button>
+                                        <button v-if="status == 2" @click.prevent="StatusShipped(id)" class="btn btn-warning text-light btn-md fw-bold float-end mt-3">Mark as Shipped</button>
+                                        <button v-if="status == 3" @click.prevent="StatusReceive(id,4)" class="btn btn-primary text-light btn-md fw-bold float-end mt-3">Mark as Receive</button>
+                                        <button type="button" class="btn  btn-dark float-end mt-3 me-2" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button id="delivered" class="btn btn-success" >Delivered</button>
-                <button id="packed"class="btn btn-success">Packed</button>
-                <button id="shipped" class="btn btn-info" >Ship</button>
-                <button id="received" class="btn btn-warning">Receive</button>
-</div>
-
-            </div>
-        </div>
-    </div>
-
-    <script>
-    $(document).ready(function () {
-        $("#packed").click(function () {
-            // Hide the "Packed" button
-            $("#packed").hide();
-            // Show the "Ship" button
-            $("#shipped").show();
-        });
-
-        $("#shipped").click(function () {
-            // Hide the "Ship" button
-            $("#shipped").hide();
-            // Show the "Receive" button
-            $("#received").show();
-        });
-
-        $("#received").click(function () {
-            // Hide the "Receive" button
-            $("#received").hide();
-            // Show the "Delivered" button
-            $("#delivered").show();
-        });
-    });
-</script>
+        <div>
 
 
-    <script src="../assets/viewDetailsModal.js"></script>
-    <script src="../assets/css/toastr.js"></script>
-    <script src="../assets/services/axios.js"></script>
-    <script src="../assets/css/sweetalert.js"></script>
-    <script src="../assets/services/jquery.js"></script>
-    <script src="../assets/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-..." crossorigin="anonymous"></script>
+          <script src="../assets/services/vue.3.js"></script>
+            <script src="../assets/services/axios.js"></script>
+            <script src="../assets/services/CusOrders.js"></script>
+            <script src="../assets/css/bootstrap.js"></script>
+                 <script src="../assets/productsmodal.js"></script>
+                <script src="../assets/drop_down.js"></script>
+            <script src="../assets/css/sweetalert.js"></script>
+                <script src="../assets/services/jquery.js"></script>
+                <script src="../assets/services/dataTables.js"></script>
 </body>
 
 </html>

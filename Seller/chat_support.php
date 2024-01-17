@@ -45,12 +45,6 @@ $role = $_SESSION['role'];
                             <span class="text-white font-medium hover:text-gray-300">Orders</span>
                         </a>
                     </li>
-                <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
-    <a href="../Seller/list_orders.php" class="flex items-center space-x-2">
-        <i class="fas fa-list-alt h-5 w-5 fill-current text-white"></i>
-        <span class="text-white font-medium hover:text-gray-300">List of Orders</span>
-    </a>
-</li>
                     <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
                         <a href="../Seller/sales_rep.php" class="flex items-center space-x-2">
                             <i class="fas fa-chart-bar h-5 w-5 fill-current text-white"></i>

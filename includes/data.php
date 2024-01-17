@@ -199,12 +199,12 @@ class data
     // orders.php
     public function displayOrdersseller()
     {
-        return "SELECT u.name AS order_name,u.name AS user_name,u.contact_no,u.current_add,t.id,t.date,t.amount,t.paymethod,t.status
+        return "SELECT u.name AS order_name,u.name AS user_name,u.contact_no,u.current_add,t.id,t.date,t.amount,t.paymethod,t.status,p.product_image AS product_image, t.image as paymentImage, t.plant_image, p.product_name
         FROM `transaction` AS t
         INNER JOIN user_table AS u ON t.customer_id = u.id
+        INNER JOIN products AS p ON t.product_id = p.product_ID
         WHERE t.seller_id = ?";
     }
-
     // order.php delete
     public function displayOrderDelete()
     {
