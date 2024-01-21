@@ -476,9 +476,17 @@ class data
             WHERE message.inbox_id = ?
         ";
     }
+    // public function SELECTID()
+    // {
+    //     return "SELECT * FROM `my_cart` WHERE cart_id = ?";
+    // }
     public function SELECTID()
     {
-        return "SELECT * FROM `my_cart` WHERE cart_id = ?";
+        return "SELECT u.image AS userImage, u.shop_name, u.permanent_add,c.product_id,p.product_image,c.cart_id
+        FROM `my_cart` AS c
+        INNER JOIN `user_table` AS u ON u.id = c.customer_id
+        INNER JOIN `products` AS p ON p.product_ID = c.product_id
+        WHERE c.cart_id = ?";
     }
     public function dataOrderProcess()
     {

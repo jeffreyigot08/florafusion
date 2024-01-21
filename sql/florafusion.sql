@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2024 at 11:12 AM
+-- Generation Time: Jan 21, 2024 at 04:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -150,7 +150,7 @@ INSERT INTO `my_cart` (`cart_id`, `seller_id`, `customer_id`, `product_id`, `pro
 (26, 39, 42, 62, 300, 1, 1),
 (27, 39, 42, 64, 360, 10, 1),
 (28, 37, 42, 66, 360, 1, 1),
-(32, 39, 39, 64, 360, 1, 1);
+(32, 39, 36, 64, 360, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -165,7 +165,7 @@ CREATE TABLE `orders` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `total_amount` decimal(10,2) DEFAULT NULL,
-  `orders_image` text NOT NULL,
+  `orders_status` int(11) NOT NULL,
   `order_date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -173,11 +173,12 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `orders_image`, `order_date`) VALUES
-(16, 36, 37, 66, 1, 360.00, '', '2024-01-16 06:58:20'),
-(17, 36, 37, 70, 1, 200.00, '', '2024-01-17 01:47:49'),
-(18, 36, 37, 67, 1, 250.00, '', '2024-01-17 01:48:12'),
-(19, 36, 37, 70, 1, 200.00, '', '2024-01-17 01:48:42');
+INSERT INTO `orders` (`order_id`, `customer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `orders_status`, `order_date`) VALUES
+(16, 36, 37, 66, 1, 360.00, 0, '2024-01-16 06:58:20'),
+(17, 36, 37, 70, 1, 200.00, 0, '2024-01-17 01:47:49'),
+(18, 36, 37, 67, 1, 250.00, 0, '2024-01-17 01:48:12'),
+(19, 36, 37, 70, 1, 200.00, 0, '2024-01-17 01:48:42'),
+(20, 36, 42, 72, 1, 123.00, 1, '2024-01-21 02:56:02');
 
 -- --------------------------------------------------------
 
@@ -210,7 +211,7 @@ INSERT INTO `products` (`product_ID`, `userID`, `product_image`, `product_image2
 (67, 37, 'Orchids.jpg', 'Orchids1.jpg', 'Orchids2.jpg', 'Orchids', 499, 250, 'Plants prized for their beautiful and unique flowers.', 1, '2024-01-17 01:48:12'),
 (70, 37, 'Sun Flower.jpg', 'Sun FLower1.jpg', 'Sun Flower2.jpg', 'Sun Flower', 338, 200, 'Pretty, bright yellow flowering plants known for their striking appearance.', 1, '2024-01-17 01:48:42'),
 (71, 37, 'Venus Flytrap.jpg', 'Venus Flytrap1.jpg', 'Venus Flytrap2.jpg', 'Venus Flytrap', 0, 400, 'Each leaf has a flat stalk and ends in a trap.', 1, '2024-01-15 10:34:52'),
-(72, 42, 'Philodendron1.jpg', 'Chrysanthemum1.jpg', 'Chrysanthemum2.jpg', 'Lavender', 123, 123, '123', 1, '2024-01-17 01:34:55');
+(72, 42, 'Philodendron1.jpg', 'Chrysanthemum1.jpg', 'Chrysanthemum2.jpg', 'Lavender', 122, 123, '123', 1, '2024-01-21 02:56:02');
 
 -- --------------------------------------------------------
 
@@ -241,7 +242,8 @@ INSERT INTO `reviews` (`review_id`, `customer_id`, `seller_id`, `product_id`, `r
 (123, 42, 39, 62, 5, 'thank you', '2023-12-23 18:27:18'),
 (124, 36, 37, 66, 5, 'thank you', '2023-12-23 18:27:43'),
 (125, 42, 37, 71, 5, 'thank you', '2023-12-23 18:27:43'),
-(126, 42, 39, 62, 5, 'thank you', '2023-12-23 18:27:43');
+(126, 42, 39, 62, 5, 'thank you', '2023-12-23 18:27:43'),
+(127, 42, 0, 64, NULL, '123', '2024-01-21 11:16:08');
 
 -- --------------------------------------------------------
 
@@ -257,7 +259,6 @@ CREATE TABLE `transaction` (
   `amount` int(11) NOT NULL,
   `paymethod` int(11) NOT NULL,
   `image` text NOT NULL,
-  `plant_image` text NOT NULL,
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -266,11 +267,12 @@ CREATE TABLE `transaction` (
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `customer_id`, `seller_id`, `product_id`, `amount`, `paymethod`, `image`, `plant_image`, `status`, `date`) VALUES
-(14, 42, 39, 62, 300, 1, 'Chrysanthemum2.jpg', 'cactus.jpg', 1, '2024-01-17 05:09:32'),
-(15, 42, 39, 64, 360, 1, 'gcash.jpg', 'Spider Plant.jpg', 0, '2024-01-17 05:09:34'),
-(17, 36, 37, 70, 200, 2, 'Chrysanthemum1.jpg', 'Sun Flower.jpg', 2, '2024-01-17 10:08:21'),
-(18, 36, 37, 67, 250, 2, 'gcash.jpg', 'Orchids.jpg', 4, '2024-01-17 09:53:18');
+INSERT INTO `transaction` (`id`, `customer_id`, `seller_id`, `product_id`, `amount`, `paymethod`, `image`, `status`, `date`) VALUES
+(14, 42, 39, 62, 300, 1, 'Chrysanthemum2.jpg', 1, '2024-01-17 05:09:32'),
+(15, 42, 39, 64, 360, 1, 'gcash.jpg', 0, '2024-01-17 05:09:34'),
+(17, 36, 37, 70, 200, 2, 'Chrysanthemum1.jpg', 2, '2024-01-17 10:08:21'),
+(18, 36, 37, 67, 250, 2, 'gcash.jpg', 4, '2024-01-17 09:53:18'),
+(20, 36, 42, 72, 123, 2, 'gcash.jpg', 1, '2024-01-21 02:56:37');
 
 -- --------------------------------------------------------
 
@@ -449,13 +451,13 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `my_cart`
 --
 ALTER TABLE `my_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -467,13 +469,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `user_table`

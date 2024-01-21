@@ -119,7 +119,7 @@ $role = $_SESSION['id'];
 
                     <tr class="border-b" v-for="c in carts">
                         <td class="py-2 px-4">
-                            <img src="../assets/img/cactus.jpg" class="your-image-class w-40">
+                        <img :src="'../assets/img/' + c.pimage" class="your-image-class w-40">
                         </td>
 
 
@@ -177,7 +177,7 @@ $role = $_SESSION['id'];
 
                     <tr class="border-b" v-for="c in carts">
                         <td class="py-2 px-4">
-                            <img src="../assets/img/cactus.jpg" class="your-image-class w-40">
+                        <img :src="'../assets/img/' + c.pimage" class="your-image-class w-40">
                         </td>
 
 
