@@ -203,7 +203,11 @@ function displayAllOrders(){
     $backend = new backend();
     echo $backend->doDisplayOrdersSellers($_SESSION['id']);
 }
-
+// orders.php
+function displayAllMyOrders(){
+    $backend = new backend();
+    echo $backend->doDisplayMyOrders($_SESSION['id']);
+}
 // delete order.php 
 function deletesellersOrders(){
     $backend = new backend();

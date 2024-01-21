@@ -18,14 +18,14 @@ $role = $_SESSION['id'];
     <link rel="stylesheet" href="../assets/css/modal.css">
     <link rel="stylesheet" href="../assets/css/css.css">
     <link rel="stylesheet" href="../assets/css/floating.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/tracking.css">
     <script src="../assets/css/jquery.js"></script>
     <title>Tracker</title>
 </head>
 
 <body class="bg-gray-100">
-    <div id="tracker">
+    <div id="CusOrders">
         <nav class="bg-white border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto relative">
                 <div class="flex items-center">
@@ -80,151 +80,87 @@ $role = $_SESSION['id'];
             </div>
         </nav>
 
-        <!-- <div class="max-w-5xl mx-auto mt-8 text-center p-4 bg-white rounded shadow mt-20">
-        <h2 class="text-2xl font-semibold mb-4">Order Tracker</h2>
-
-        <div class="flex space-x-4 items-center step-container">
-            <div class="flex flex-col items-center">
-                <i class="fas fa-shopping-cart text-blue-500 text-2xl"></i>
-                <p class="text-sm text-gray-600 mt-2">Order Placed</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <i class="fas fa-sync text-blue-500 text-2xl"></i>
-                <p class="text-sm text-gray-600 mt-2">Processing</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <i class="fas fa-truck text-blue-500 text-2xl"></i>
-                <p class="text-sm text-gray-600 mt-2">Shipped</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <i class="fas fa-check-circle text-green-500 text-2xl"></i>
-                <p class="text-sm text-gray-600 mt-2">Delivered</p>
-            </div>
-        </div>
-    </div> -->
-
 
         <div class="container mx-auto mt-8 p-4">
             <h1 class="text-2xl font-semibold mb-4 text-center mt-8">My Orders</h1>
 
         </div>
 
-        <!-- Plant Details Table -->
-        <div class="mb-4 mr-8 ml-8">
-            <div class="bg-gray-50">
-                <button class="py-2 px-3 bg-gray-100 border border-gray-300 hover:bg-gray-400" onclick="filterOrders('all')">All</button>
-                <button class="py-2 px-3 bg-gray-100 border border-gray-300 hover:bg-gray-400" onclick="filterOrders('placed')">Order Placed</button>
-                <button class="py-2 px-3 bg-gray-100 border border-gray-300 hover:bg-gray-400" onclick="filterOrders('packed')">Packed</button>
-                <button class="py-2 px-3 bg-gray-100 border border-gray-300 hover:bg-gray-400" onclick="filterOrders('to-ship')">To Ship</button>
-                <button class="py-2 px-3 bg-gray-100 border border-gray-300 hover:bg-gray-400" onclick="filterOrders('to-receive')">To Receive</button>
-                <button class="py-2 px-3 bg-gray-100 border border-gray-300 hover:bg-gray-400" onclick="filterOrders('completed')">Completed</button>
+
+<section>
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-stepper text-black mb-2 " style="border-radius: 16px;" v-for="o in customerOrders">
+
+          <div class="card-body p-5">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div class="d-flex align-items-center"> 
+                    <img :src="'../assets/img/' + o.image" alt="Product 1" class="img-fluid me-lg-4 mb-3 mb-lg-0">
+                    <div class="text-start"> 
+                        <h5>{{o.productname}}</h5>
+                        <h5>quantity <span>{{o.quantity}}</span></h5>
+                        <h5>Price <span>{{o.amount}}</span></h5>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <p class="mb-0">DATE <span>2023</span></p>
+                    <p class="mb-0">ORDER # <span class="font-weight-bold">{{o.order_id}}</span></p>
+                </div>
             </div>
 
-            <table id="page" class="w-1/2 min-w-full bg-white divide-y divide-gray-800 border border-gray-800 m-3">
-                <tbody id="orders" class="bg-white divide-y divide-gray-200">
-                    <!-- Order 1: Order Placed -->
-                    <tr data-status="placed">
-                        <td colspan="6" class="py-2 px-4 text-left border-b flex items-center">
-                            <i class="fas fa-store mr-2"></i><a href="seller_shop.php" class="no-underline text-black">nice gardens</a>
-                        </td>
-                    <tr data-status="placed">
-                        <td><img src="../assets/img/Cactus.jpg" class="your-image-class w-40 ml-8 mb-3 mt-3"></td>
-                        <td>Cactus</td>
-                        <td>Cactuses, or cacti, are desert plants.</td>
-                        <td>300.00</td>
-                        <td>Qty: 1</td>
-                    </tr>
-                    </tr>
+            <ul id="progressbar-2" class="d-flex justify-content-between mx-0">
+            <li :class="{ 'active': o.orderstatus >= 1 }" class="text-center" id="step1"></li>
+            <li :class="{ 'active': o.orderstatus >= 2 }" class="text-center" id="step2"></li>
+            <li :class="{ 'active': o.orderstatus >= 3 }" class="text-center" id="step3"></li>
+            <li :class="{ 'active': o.orderstatus == 4 }" class="text-end" id="step4"></li>
+            </ul>
 
-                    <!-- Order 2: Packed -->
-                    <tr data-status="packed">
-                        <td colspan="6" class="py-2 px-4 text-left border-b flex items-center">
-                            <i class="fas fa-store mr-2"></i><a href="seller_shop.php" class="no-underline text-black">Purplebox Gardens</a>
-                        </td>
-                    <tr data-status="packed">
-                        <td><img src="../assets/img/Lavender.jpg" class="your-image-class w-40 ml-8 mb-3 mt-3"></td>
-                        <td>Lavender</td>
-                        <td>Lavenders are beautiful flowers.</td>
-                        <td>300.00</td>
-                        <td>Qty: 1</td>
-                    </tr>
-                    </tr>
 
-                    <!-- Order 3: To Ship -->
-                    <tr data-status="to-ship">
-                        <td colspan="6" class="py-2 px-4 text-left border-b flex items-center">
-                            <i class="fas fa-store mr-2"></i><a href="seller_shop.php" class="no-underline text-black">nice gardens</a>
-                        </td>
-                    <tr data-status="to-ship">
-                        <td><img src="../assets/img/Spider Plant.jpg" class="your-image-class w-40 ml-8 mb-3 mt-3"></td>
-                        <td>Spider Plant</td>
-                        <td>Spider Plants are easy to care for.</td>
-                        <td>300.00</td>
-                        <td>Qty: 1</td>
-                    </tr>
-                    </tr>
+            <div class="d-flex justify-content-between">
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-clipboard-list fa-2x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order </p>
+                  <p class="fw-bold mb-0">Deliver</p>
+                </div>
+              </div>
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-box-open fa-2x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order</p>
+                  <p class="fw-bold mb-0">Packed</p>
+                </div>
+              </div>
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-shipping-fast fa-2x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order</p>
+                  <p class="fw-bold mb-0">Shipped</p>
+                </div>
+              </div>
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-home fa-2x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order</p>
+                  <p class="fw-bold mb-0">Arrived</p>
+                </div>
+              </div>
+            </div>
 
-                    <!-- Order 4: To Receive -->
-                    <tr data-status="to-receive">
-                        <td colspan="6" class="py-2 px-4 text-left border-b flex items-center">
-                            <i class="fas fa-store mr-2"></i><a href="seller_shop.php" class="no-underline text-black">Purplebox Gardens</a>
-                        </td>
-                    <tr data-status="to-receive">
-                        <td><img src="../assets/img/Orchids.jpg" class="your-image-class w-40 ml-8 mb-3 mt-3"></td>
-                        <td>Orchids</td>
-                        <td>Orchids are delicate and beautiful.</td>
-                        <td>300.00</td>
-                        <td>Qty: 1</td>
-                    </tr>
-                    </tr>
+          </div>
 
-                    <!-- Order 5: Completed -->
-                    <tr data-status="completed">
-                        <td colspan="6" class="py-2 px-4 text-left border-b flex items-center">
-                            <i class="fas fa-store mr-2"></i><a href="seller_shop.php" class="no-underline text-black">Purplebox Gardens</a>
-                        </td>
-                    <tr data-status="completed">
-                        <td><img src="../assets/img/Sun Flower.jpg" class="your-image-class w-40 ml-8 mb-3 mt-3"></td>
-                        <td>Sun Flower</td>
-                        <td>Sun Flowers bring warmth and joy.</td>
-                        <td>300.00</td>
-                        <td>Qty: 1</td>
-                    </tr>
-                    </tr>
-                </tbody>
-            </table>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
-        <!-- Floating chat icon -->
-        <div id="chat-icon" class="shadow-lg">
-            <a href="../chat/chat.php">
-                <i class="fas fa-comment-dots fa-3x"></i>
-            </a>
-        </div>
 
-
-        <script>
-            function filterOrders(status) {
-                const rows = document.querySelectorAll('#orders tr');
-
-                rows.forEach(row => {
-                    const rowStatus = row.getAttribute('data-status');
-
-                    if (status === 'all' || status === rowStatus) {
-                        row.style.display = 'table-row';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            }
-        </script>
-
-        <!-- <script src="../assets/track.js"></script> -->
-        <script src="../assets/services/axios.js"></script>
-        <script src="../assets/services/vue.3.js"></script>
-        <!-- <script src="../assets/services/tracker.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
+<script src="../assets/services/vue.3.js"></script>
+  <script src="../assets/services/axios.js"></script>
+  <script src="../assets/services/CusOrders.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
         <script src="../assets/drop_down.js"></script>

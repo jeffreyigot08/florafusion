@@ -106,9 +106,9 @@ $role = $_SESSION['id'];
                                 {{index + 1}}
                                 </td>
                                 <td>
-                                <img :src="'../assets/img/' + o.image" class="your-image-class w-40 ml-8 mb-3 mt-3">
+                                <img :src="'../assets/img/' + o.image"  width="100" height="100">
                                 </td>
-                                <td>
+                                <td class="text-center">
                                 {{o.name}}
                                 </td>
                                 <td>

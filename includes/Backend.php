@@ -125,6 +125,10 @@ class backend
         return $this->getDisplaySellerorders($id);
     }
 
+    public function doDisplayMyOrders($id)
+    {
+        return $this->getDisplayMyOrders($id);
+    }
     // orders.php delete
     public function doDeleteOrdersSeller($id)
     {
@@ -928,7 +932,6 @@ private function getDisplayUnLock($id, $disabled)
             return $th;
         }
     }
-
     // orders.php
     private function getDisplaySellerorders($id)
     {
@@ -948,6 +951,25 @@ private function getDisplayUnLock($id, $disabled)
             return $th;
         }
     }
+        // customer.php
+        private function getDisplayMyOrders($id)
+        {
+            try {
+                $con = new database();
+                if ($con->getStatus()) {
+                    $DT = new data();
+                    $query = $con->getCon()->prepare($DT->displayMyOrder());
+                    $query->execute(array($id));
+                    $result = $query->fetchAll();
+                    $con->closeConnection();
+                    return json_encode($result);
+                } else {
+                    return "NotConnectedToDatabase";
+                }
+            } catch (PDOException $th) {
+                return $th;
+            }
+        }
     //orders.php delete
     private function getDeleteOrdersSeller($id)
     {
@@ -995,16 +1017,20 @@ private function getDisplayUnLock($id, $disabled)
             $con = new database();
             if ($con->getStatus()) {
                 $DT = new data();
-                $query = $con->getCon()->prepare($DT->deliveredItem());
-                $query->execute(array($id));
-                $result = $query->fetch();
+                $queries = $DT->deliveredItem();
+    
+                foreach ($queries as $query) {
+                    $stmt = $con->getCon()->prepare($query);
+                    $stmt->execute([$id]);
+                }
+    
                 $con->closeConnection();
-                return json_encode($result);
+                return json_encode(["success" => true, "message" => "Order delivered successfully"]);
             } else {
-                return "NotConnectedToDatabase";
+                return json_encode(["success" => false, "message" => "Not connected to the database"]);
             }
         } catch (PDOException $th) {
-            return $th;
+            return json_encode(["success" => false, "message" => $th->getMessage()]);
         }
     }
     private function getUpdateStatusPacked($id)
@@ -1013,52 +1039,66 @@ private function getDisplayUnLock($id, $disabled)
             $con = new database();
             if ($con->getStatus()) {
                 $DT = new data();
-                $query = $con->getCon()->prepare($DT->PackedItem());
-                $query->execute(array($id));
-                $result = $query->fetch();
+                $queries = $DT->PackedItem();
+    
+                foreach ($queries as $query) {
+                    $stmt = $con->getCon()->prepare($query);
+                    $stmt->execute([$id]);
+                }
+    
                 $con->closeConnection();
-                return json_encode($result);
+                return json_encode(["success" => true, "message" => "Order Packed successfully"]);
             } else {
-                return "NotConnectedToDatabase";
+                return json_encode(["success" => false, "message" => "Not connected to the database"]);
             }
         } catch (PDOException $th) {
-            return $th;
+            return json_encode(["success" => false, "message" => $th->getMessage()]);
         }
     }
+
     private function getUpdateStatusShipped($id)
     {
         try {
             $con = new database();
             if ($con->getStatus()) {
                 $DT = new data();
-                $query = $con->getCon()->prepare($DT->ShippedItem());
-                $query->execute(array($id));
-                $result = $query->fetch();
+                $queries = $DT->ShippedItem();
+    
+                foreach ($queries as $query) {
+                    $stmt = $con->getCon()->prepare($query);
+                    $stmt->execute([$id]);
+                }
+    
                 $con->closeConnection();
-                return json_encode($result);
+                return json_encode(["success" => true, "message" => "Order Shipped successfully"]);
             } else {
-                return "NotConnectedToDatabase";
+                return json_encode(["success" => false, "message" => "Not connected to the database"]);
             }
         } catch (PDOException $th) {
-            return $th;
+            return json_encode(["success" => false, "message" => $th->getMessage()]);
         }
     }
+
     private function getUpdateStatusReceive($id)
     {
         try {
             $con = new database();
             if ($con->getStatus()) {
                 $DT = new data();
-                $query = $con->getCon()->prepare($DT->ReceiveItem());
-                $query->execute(array($id));
-                $result = $query->fetch();
+                $queries = $DT->ReceiveItem();
+    
+                foreach ($queries as $query) {
+                    $stmt = $con->getCon()->prepare($query);
+                    $stmt->execute([$id]);
+                }
+    
                 $con->closeConnection();
-                return json_encode($result);
+                return json_encode(["success" => true, "message" => "Order Receive successfully"]);
             } else {
-                return "NotConnectedToDatabase";
+                return json_encode(["success" => false, "message" => "Not connected to the database"]);
             }
         } catch (PDOException $th) {
-            return $th;
+            return json_encode(["success" => false, "message" => $th->getMessage()]);
         }
     }
     // index.php getallproducts
@@ -1436,32 +1476,6 @@ private function getDisplayUnLock($id, $disabled)
             return $th;
         }
     }
-    // private function getAddVote($store_id, $sellerId, $id, $rating)
-    // {
-    //     try {
-    //         $con = new database();
-    //         if ($con->getStatus()) {
-    //             $DT = new data();
-    //             $query = $con->getCon()->prepare($DT->doAddVoteData());
-    //             $query->execute(array($store_id, $sellerId, $id, $rating));
-                
-             
-    //             $affectedRows = $query->rowCount();
-    //             if ($affectedRows > 0) {
-    //                 $con->closeConnection();
-    //                 return 200; // Success
-    //             } else {
-    //                 $con->closeConnection();
-    //                 return "Try Again";
-    //             }
-    //         } else {
-    //             $con->closeConnection();
-    //             return "ERROR 404";
-    //         }
-    //     } catch (PDOException $th) {
-    //         return $th->getMessage(); // Return the error message
-    //     }
-    // }
     private function doDisplayReview()
     {
         try {
@@ -1498,24 +1512,6 @@ private function getDisplayUnLock($id, $disabled)
             return $th;
         }
     }
-    // private function getRevByID()
-    // {
-    //     try {
-    //         $con = new database();
-    //         if ($con->getStatus()) {
-    //             $DT = new data();
-    //             $query = $con->getCon()->prepare($DT->getRevByIDdata());
-    //             $query->execute();
-    //             $result = $query->fetchAll();
-    //             $con->closeConnection();
-    //             return json_encode($result);
-    //         } else {
-    //             return "NotConnectedToDatabase";
-    //         }
-    //     } catch (PDOException $th) {
-    //         return $th;
-    //     }
-    // }
     private function getRevByID($product_ID)
     {
         try {
@@ -1853,7 +1849,7 @@ private function getDisplayUnLock($id, $disabled)
                     } else {
                         // Insert Query to Orders
                         $insertQuery = $con->getCon()->prepare($DT->dataOrderProcess()[0]);
-                        $insertQuery->execute([$customer_id, $seller_id, $product_id, $quantity, $product_price * $quantity]);
+                        $insertQuery->execute([$customer_id, $seller_id, $product_id, $quantity, $product_price * $quantity,$status]);
     
                         $transactionId = $con->getCon()->lastInsertId();
     

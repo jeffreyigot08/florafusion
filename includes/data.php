@@ -10,11 +10,6 @@ class data
     {
         return "INSERT INTO `user_table` (`name`,`email`,`password`,`role`,`status`,`image`,`qr_image`,`current_add`,`permanent_add`,`shop_name`,`contact_no`,`gender`,`birthday`) VALUES (?,?,?,?,1,?,?,?,?,?,?,?,?)";
     }
-    // public function doReportData()
-    // {
-    //     return "INSERT INTO `report` (`query_type`, `issue`, `seller_name`, `order_no`, `comments`, `image`, `sellername`, `shopname`, `report_id`, `id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    // }
-    
     public function Lockseller()
     {
         return "UPDATE `user_table` SET `role`= 3 WHERE id = ?";
@@ -63,9 +58,7 @@ class data
         INNER JOIN user_table AS u ON t.customer_id = u.id
         WHERE t.`status` IN (1, 2, 3, 4) AND t.`customer_id` = ?;
         ";
-    }
-    
-    
+    }  
     public function doDeleteProductData()
     {
         return "DELETE FROM `products` WHERE `product_ID` = ?";
@@ -132,10 +125,6 @@ class data
     {
         return "SELECT * FROM `wishlist` WHERE customer_id = ? AND product_id = ?";
     }
-
-    // public function doCheckOut(){
-    //     return "INSERT INTO `orders`( `customer_id`,`seller_id`, `product_id`, `total_amount`, `order_date`) SELECT ?,seller_id,product_id,product_price*quantity,now() FROM `my_cart` WHERE cart_id = ?";
-    // }
     public function paymentData()
     {
         return "INSERT INTO `orders`(`customer_id`, `seller_id`, `product_id`,`quantity`, `total_amount`, `paymethod`, `image`, `order_date`)
@@ -152,10 +141,6 @@ class data
         WHERE t.customer_id = ?
         ORDER BY t.id ASC";
     }
-    // public function updateStatus()
-    // {
-    //     return "UPDATE `my_cart` SET `is_checkout`= 1  WHERE cart_id = ?";
-    // }
     public function updateStatus()
     {
         return "DELETE FROM `my_cart` WHERE `cart_id` = ?";
@@ -199,11 +184,19 @@ class data
     // orders.php
     public function displayOrdersseller()
     {
-        return "SELECT u.name AS order_name,u.name AS user_name,u.contact_no,u.current_add,t.id,t.date,t.amount,t.paymethod,t.status,p.product_image AS product_image, t.image as paymentImage, t.plant_image, p.product_name
+        return "SELECT u.name AS order_name,u.name AS user_name,u.contact_no,u.current_add,t.id,t.date,t.amount,t.paymethod,t.status,p.product_image AS product_image, t.image as paymentImage, p.product_name
         FROM `transaction` AS t
         INNER JOIN user_table AS u ON t.customer_id = u.id
         INNER JOIN products AS p ON t.product_id = p.product_ID
         WHERE t.seller_id = ?";
+    }
+    public function displayMyOrder()
+    {
+        return "SELECT o.*, u.name AS order_name, u.contact_no, u.current_add, p.product_image AS product_image, p.product_name,o.orders_status,o.quantity,o.total_amount
+        FROM `orders` AS o
+        INNER JOIN user_table AS u ON o.customer_id = u.id
+        INNER JOIN products AS p ON o.product_id = p.product_ID
+        WHERE o.customer_id = ?";
     }
     // order.php delete
     public function displayOrderDelete()
@@ -234,20 +227,32 @@ class data
 
     //order.php delivered 
     public function deliveredItem()
-    {
-        return "UPDATE `transaction` SET status = 1 WHERE id = ?";
-    }
+{
+    return [
+        "UPDATE `transaction` SET status = 1 WHERE id = ?",
+        "UPDATE `orders` SET orders_status = 1 WHERE order_id = ?"
+    ];
+}
     public function PackedItem()
     {
-        return "UPDATE `transaction` SET status = 2 WHERE id = ?";
+        return [
+            "UPDATE `transaction` SET status = 2 WHERE id = ?",
+            "UPDATE `orders` SET orders_status = 2 WHERE order_id = ?"
+        ];
     }
     public function ShippedItem()
     {
-        return "UPDATE `transaction` SET status = 3 WHERE id = ?";
+        return [
+            "UPDATE `transaction` SET status = 3 WHERE id = ?",
+            "UPDATE `orders` SET orders_status = 3 WHERE order_id = ?"
+        ];
     }
     public function ReceiveItem()
     {
-        return "UPDATE `transaction` SET status = 4 WHERE id = ?";
+        return [
+            "UPDATE `transaction` SET status = 4 WHERE id = ?",
+            "UPDATE `orders` SET orders_status = 4 WHERE order_id = ?"
+        ];
     }
 
     // index.php display all products
@@ -362,17 +367,12 @@ class data
         INNER JOIN products AS p ON p.product_ID = o.product_id
         INNER JOIN transaction t ON t.product_id = o.product_id
         WHERE o.seller_id = ?
-        AND t.status = 1";
+        AND t.status IN (1, 2, 3, 4)";
     }
     public function doAddReview()
     {
         return "INSERT INTO reviews (`review_id`,`customer_id`,`seller_id`,`product_id`,`review_text`, `review_date`) VALUES (?,?,?,?,?,now())" ;
     }
-    // public function doAddReviews()
-    // {
-    //     return "INSERT INTO `reviews`(`customer_id`, `seller_id`, `product_id`, `rating`, `review_text`, `review_date`) 
-    //     SELECT customer_id, seller_id, product_id, ?, ?, now() FROM orders AS o WHERE product_id = product_id";
-    // }
     public function doAddVoteData()
     {
         return "INSERT INTO best_store (`store_id`,`seller_id`,`customer_id`,`rating`,`date`) VALUES (?,?,?,?,now())" ;
@@ -476,14 +476,6 @@ class data
             WHERE message.inbox_id = ?
         ";
     }
-    //    public function getRevByIDdata()
-    // {
-    //     return "SELECT r.*, u.image AS revImage, u.name AS revFullname, r.review_text,
-    //     p.product_ID AS actual_product_id
-    //     FROM reviews AS r INNER JOIN user_table AS u ON r.customer_id = u.id 
-    //     INNER JOIN products AS p ON r.product_id = p.product_ID WHERE r.product_id = ?";
-    // }
-
     public function SELECTID()
     {
         return "SELECT * FROM `my_cart` WHERE cart_id = ?";
@@ -491,8 +483,8 @@ class data
     public function dataOrderProcess()
     {
         return [
-            "INSERT INTO `orders` (`customer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `order_date`) 
-             VALUES (?, ?, ?, ?, ?, NOW())",
+            "INSERT INTO `orders` (`customer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `orders_status`,`order_date`) 
+             VALUES (?, ?, ?, ?, ?,?, NOW())",
             "DELETE FROM `my_cart` WHERE `cart_id` = ?",
             "UPDATE `products` SET `product_qty` = `product_qty` - ? WHERE `product_id` = ?",
         ];

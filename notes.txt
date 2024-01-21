@@ -23,7 +23,7 @@ both customer and seller
 * shopname inig click deretso sa seller profile - fix 
 * by seller ang cart 
 -order tracker
-* all change
+* all change - fix 
 - purchase history
 * add plant image and plant name - fix 
 seller
