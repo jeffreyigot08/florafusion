@@ -104,7 +104,7 @@ $role = $_SESSION['id'];
                     </div>
                 </div>
                 <div class="text-end">
-                    <p class="mb-0">DATE <span>2023</span></p>
+                    <p class="mb-0">DATE: <span>{{o.date}}</span></p>
                     <p class="mb-0">ORDER # <span class="font-weight-bold">{{o.order_id}}</span></p>
                 </div>
             </div>
@@ -113,16 +113,17 @@ $role = $_SESSION['id'];
             <li :class="{ 'active': o.orderstatus >= 1 }" class="text-center" id="step1"></li>
             <li :class="{ 'active': o.orderstatus >= 2 }" class="text-center" id="step2"></li>
             <li :class="{ 'active': o.orderstatus >= 3 }" class="text-center" id="step3"></li>
-            <li :class="{ 'active': o.orderstatus == 4 }" class="text-end" id="step4"></li>
+            <li :class="{ 'active': o.orderstatus >= 4 }" class="text-center" id="step4"></li>
+            <li :class="{ 'active': o.orderstatus == 5 }" class="text-end" id="step5"></li>
             </ul>
 
 
             <div class="d-flex justify-content-between">
               <div class="d-lg-flex align-items-center">
-                <i class="fas fa-clipboard-list fa-2x me-lg-4 mb-3 mb-lg-0"></i>
+                <i class="fas fa-clock text-center fa-2x me-lg-4 mb-3 mb-lg-0"></i>
                 <div>
                   <p class="fw-bold mb-1">Order </p>
-                  <p class="fw-bold mb-0">Deliver</p>
+                  <p class="fw-bold mb-0">Approve</p>
                 </div>
               </div>
               <div class="d-lg-flex align-items-center">
@@ -140,10 +141,17 @@ $role = $_SESSION['id'];
                 </div>
               </div>
               <div class="d-lg-flex align-items-center">
-                <i class="fas fa-home fa-2x me-lg-4 mb-3 mb-lg-0"></i>
+                <i class="fas fa-box fa-2x me-lg-4 mb-3 mb-lg-0"></i>
                 <div>
                   <p class="fw-bold mb-1">Order</p>
                   <p class="fw-bold mb-0">Arrived</p>
+                </div>
+              </div>
+              <div class="d-lg-flex align-items-center">
+                <i class="fas fa-home fa-2x me-lg-4 mb-3 mb-lg-0"></i>
+                <div>
+                  <p class="fw-bold mb-1">Order</p>
+                  <p class="fw-bold mb-0">Receive</p>
                 </div>
               </div>
             </div>

@@ -120,7 +120,7 @@ $role = $_SESSION['id'];
                             <td class="py-2 px-4">{{ p.paymethod == 1 ? 'Gcash' : p.paymethod == 2 ? 'Gcash': 'COD' }}
                             </td>
                             <td class="py-2 px-4">{{ p.amount }}</td>
-                            <td class="py-2 px-4">{{ p.status == 1 ? 'COMPLETE' : p.status == 2 ? 'COMPLETE' : p.status == 3 ? 'COMPLETE' : p.status == 4 ? 'COMPLETE' :  'NOT COMPLETE' }}</td>
+                            <td class="py-2 px-4">{{ p.status == 5 ? 'COMPLETE' : 'NOT COMPLETE' }}</td>
                             <td class="py-2 px-4">
                                 <!-- <button class="text-red-500 hover:text-red-700 focus:outline-none">
                                     <i class="fas fa-trash-alt mr-2"></i>

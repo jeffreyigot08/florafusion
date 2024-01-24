@@ -122,6 +122,11 @@ function getAllProductFromIndex()
     $backend = new backend();
     echo $backend->doGetAllProductFromIndex();
 }
+function adminProd()
+{
+    $backend = new backend();
+    echo $backend->getAdminProd();
+}
 function admininven()
 {
     $backend = new backend();
@@ -180,10 +185,10 @@ function displayCustomerInfo(){
     $backend = new backend();
     echo $backend->doDisplayCustomerInfo();
 }
-// function lockseller(){
-//     $backend = new backend();
-//     echo $backend->doLockseller($_POST['id']);
-// }
+function displayReportInfo(){
+    $backend = new backend();
+    echo $backend->doDisplayReportInfo();
+}
 //not display
 function displaySellerInfo(){
     $backend = new backend();
@@ -232,6 +237,10 @@ function updatestatusPacked(){
 function updatestatusShipped(){
     $backend = new backend();
     echo $backend->doUpdateStatusShipped($_POST['id']);
+}
+function updatestatusArrived(){
+    $backend = new backend();
+    echo $backend->doUpdateStatusArrived($_POST['id']);
 }
 
 function updatestatusReceive(){

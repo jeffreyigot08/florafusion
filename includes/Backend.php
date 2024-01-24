@@ -118,7 +118,10 @@ class backend
     {
         return $this->getDisplaySellerInfo();
     }
-
+    public function doDisplayReportInfo()
+    {
+        return $this->getDisplayReportInfo();
+    }
     //orders.php
     public function doDisplayOrdersSellers($id)
     {
@@ -154,7 +157,10 @@ class backend
     {
         return $this->getUpdateStatusShipped($id);
     }
-
+    public function doUpdateStatusArrived($id)
+    {
+        return $this->getUpdateStatusArrived($id);
+    }
     public function doUpdateStatusReceive($id)
     {
         return $this->getUpdateStatusReceive($id);
@@ -278,6 +284,10 @@ class backend
     public function userProdByID($product_ID)
     {
         return $this->prodByID($product_ID);
+    }
+    public function getAdminProd()
+    {
+        return $this->doAdminProd();
     }
     public function getAdminInven()
     {
@@ -475,14 +485,19 @@ class backend
         }
     }
 
-    private function getDisplayLock($id, $disabled)
+private function getDisplayLock($id, $disabled)
 {
     try {
         $con = new database();
         if ($con->getStatus()) {
             $DT = new data();
-            $query = $con->getCon()->prepare($DT->UpdateLock());
-            $query->execute(array($disabled, $id));
+            
+            $userQuery = $con->getCon()->prepare($DT->UpdateLock());
+            $userQuery->execute(array($disabled, $id));
+
+            $productsQuery = $con->getCon()->prepare($DT->UpdateDisabledProducts());
+            $productsQuery->execute(array($id));
+
             $con->closeConnection();
             return "SuccessfullyUpdated";
         } else {
@@ -493,14 +508,21 @@ class backend
     }
 }
 
-private function getDisplayUnLock($id, $disabled)
+private function getDisplayUnLock($id)
 {
     try {
         $con = new database();
         if ($con->getStatus()) {
             $DT = new data();
-            $query = $con->getCon()->prepare($DT->UpdateUnlockData());
-            $query->execute([$id]); 
+            
+            // Update user_table
+            $userQuery = $con->getCon()->prepare($DT->UpdateUnlockData());
+            $userQuery->execute([$id]); 
+
+            // Update products table
+            $productsQuery = $con->getCon()->prepare($DT->UpdateUnDisabledProducts());
+            $productsQuery->execute(array($id));
+
             $con->closeConnection();
             return "SuccessfullyUpdated";
         } else {
@@ -510,8 +532,6 @@ private function getDisplayUnLock($id, $disabled)
         return $th;
     }
 }
-
-
     private function doDisplayAll()
     {
         try {
@@ -895,7 +915,24 @@ private function getDisplayUnLock($id, $disabled)
             return $th;
         }
     }
-
+    private function getDisplayReportInfo()
+    {
+        try {
+            $con = new database();
+            if ($con->getStatus()) {
+                $DT = new data();
+                $query = $con->getCon()->prepare($DT->getDisplayReportData());
+                $query->execute();
+                $result = $query->fetchAll();
+                $con->closeConnection();
+                return json_encode($result);
+            } else {
+                return "NotConnectedToDatabase";
+            }
+        } catch (PDOException $th) {
+            return $th;
+        }
+    }
     private function getDisplayCustomerInfo()
     {
         try {
@@ -1078,7 +1115,28 @@ private function getDisplayUnLock($id, $disabled)
             return json_encode(["success" => false, "message" => $th->getMessage()]);
         }
     }
-
+    private function getUpdateStatusArrived($id)
+    {
+        try {
+            $con = new database();
+            if ($con->getStatus()) {
+                $DT = new data();
+                $queries = $DT->ArrivedItem();
+    
+                foreach ($queries as $query) {
+                    $stmt = $con->getCon()->prepare($query);
+                    $stmt->execute([$id]);
+                }
+    
+                $con->closeConnection();
+                return json_encode(["success" => true, "message" => "Order Arrived successfully"]);
+            } else {
+                return json_encode(["success" => false, "message" => "Not connected to the database"]);
+            }
+        } catch (PDOException $th) {
+            return json_encode(["success" => false, "message" => $th->getMessage()]);
+        }
+    }
     private function getUpdateStatusReceive($id)
     {
         try {
@@ -1574,6 +1632,24 @@ private function getDisplayUnLock($id, $disabled)
                 $DT = new data();
                 $query = $con->getCon()->prepare($DT->getProdByID());
                 $query->execute(array($product_ID));
+                $result = $query->fetchAll();
+                $con->closeConnection();
+                return json_encode($result);
+            } else {
+                return "NotConnectedToDatabase";
+            }
+        } catch (PDOException $th) {
+            return $th;
+        }
+    }
+    private function doAdminProd()
+    {
+        try {
+            $con = new database();
+            if ($con->getStatus()) {
+                $DT = new data();
+                $query = $con->getCon()->prepare($DT->AdminProd());
+                $query->execute();
                 $result = $query->fetchAll();
                 $con->closeConnection();
                 return json_encode($result);

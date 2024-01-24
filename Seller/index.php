@@ -102,6 +102,10 @@ $role = $_SESSION['id'];
                     <h3 class="text-xl font-semibold">Number of Orders</h3>
                     <p class="text-4xl">{{ orderlength }}</p>
                 </div>
+                <div class="bg-blue-500 p-4 rounded-md text-white ml-2">
+                    <h3 class="text-xl font-semibold">Total Sales</h3>
+                    <p class="text-4xl">{{ totalsales }}</p>
+                </div>
             </div>
             <div class="mt-6">
                 <canvas id="myChart" width="400" height="200"></canvas>

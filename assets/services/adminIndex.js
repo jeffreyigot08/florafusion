@@ -6,6 +6,8 @@ createApp({
             seller : [],
             customerLength : 0,
             sellerLength : 0,
+            reports:[],
+            reportsLength : 0,
         }
     },
     methods:{
@@ -53,6 +55,52 @@ createApp({
                 return this.sellerLength;
             })
         },
+        getReport:function(){
+            const vue = this;
+            var data = new FormData();
+            data.append("method","displayReportInfo");
+            axios.post('../includes/router.php',data)
+            .then(function(r){
+                vue.reports = [];
+                for(const v of r.data){
+                    vue.reports.push({
+                        id: v.id,
+                        name: v.name,
+                        role: v.role,
+                        status: v.status,
+                        image: v.image,
+                        contact_no: v.contact_no,
+                        permanent_add: v.permanent_add,
+                    })
+                }
+                vue.reportsLength = r.data.length;
+                return vue.reportsLength;
+            })
+        },
+        createPieChart: function () {
+            this.$nextTick(() => {
+              const ctx = document.getElementById('pieChart').getContext('2d');
+          
+              
+              const chartData = {
+                labels: ['Customers', 'Sellers', 'Complaints'],
+                datasets: [{
+                  data: [this.customerLength, this.sellerLength, this.reportsLength],
+                  backgroundColor: ['blue', 'orange', 'yellowgreen'],
+                }]
+              };
+              const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+              };
+          
+              new Chart(ctx, {
+                type: 'pie', 
+                data: chartData,
+                options: chartOptions
+              });
+            });
+          },          
         getchart:function () {
             const vue = this;
             var data = new FormData();
@@ -92,8 +140,18 @@ createApp({
         }
     },
     created:function(){
+        // this.createChart();
+        this.getReport();
         this.getCustomer();
         this.displaySellerInfo();
         this.getchart();
+        this.$watch(
+            () => this.customerLength + this.sellerLength + this.reportsLength,
+            () => {
+              if (this.customerLength > 0 && this.sellerLength > 0 && this.reportsLength > 0) {
+                this.createPieChart();
+              }
+            }
+          );
     }
 }).mount('#adminIndex')

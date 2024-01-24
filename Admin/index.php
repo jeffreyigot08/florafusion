@@ -73,8 +73,10 @@ $role = $_SESSION['id'];
         <div class="flex-1 p-28 relative">
             <button id="profile-menu-button" class="text-4xl text-green-400 absolute top-0 right-0 mr-4 mt-4"><img src="<?php echo isset($_SESSION['image']) ? '../assets/img/' . $_SESSION['image'] : ''; ?>" alt="default" style="height:35px;width:35px;border-radius: 40px;"></i></button>
 
-            <div class="flex items-center">
-                <div class="bg-white p-4 rounded-lg shadow-md mr-2">
+            <div class="flex items-center space-x-4">
+
+                <!-- Number of Customers -->
+                <div class="bg-white p-4 rounded-lg shadow-md">
                     <div class="flex items-center space-x-4">
                         <div class="bg-green-500 text-white p-3 rounded-full">
                             <i class="fas fa-users"></i>
@@ -87,24 +89,44 @@ $role = $_SESSION['id'];
                 </div>
 
                 <!-- Number of Sellers -->
-                <div class="bg-white p-4 rounded-lg shadow-md ml-2">
+                <div class="bg-white p-4 rounded-lg shadow-md">
                     <div class="flex items-center space-x-4">
                         <div class="bg-green-500 text-white p-3 rounded-full">
-                            <!-- Add an icon or text to represent sellers -->
                             <i class="fas fa-store"></i>
                         </div>
                         <div>
-                            <p class="text-xl font-semibold">Seller</p>
+                            <p class="text-xl font-semibold">Sellers</p>
                             <p class="text-3xl font-bold">{{ sellerLength }}</p>
-                            <!-- Replace with the actual number of sellers -->
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Chart container -->
-            <div class="mt-6">
-                <canvas id="myChart" width="400" height="200"></canvas>
-            </div>
+
+                <!-- Number of Complaints -->
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-green-500 text-white p-3 rounded-full">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <p class="text-xl font-semibold">Complaints</p>
+                            <p class="text-3xl font-bold">{{ reportsLength }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+                <div class="mt-6 flex items-center">
+                <div class="mr-4">
+                    <canvas id="pieChart" width="400" height="500"></canvas>
+                </div>
+
+                <div class="mr-4 ml-4">
+                    <canvas id="myChart" width="500" height="500"></canvas>
+                </div>
+
+                </div>
+
         </div>
     </div>
 

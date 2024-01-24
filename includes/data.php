@@ -44,11 +44,22 @@ class data
     {
         return "SELECT * FROM `products` WHERE product_ID = ?";
     }
+    public function AdminProd()
+    {
+        return "SELECT p.*,u.*,u.image AS revImage FROM 
+        products p LEFT JOIN user_table u ON p.userID = u.id";
+    }
+    // public function AdminInven()
+    // {
+    //     return "SELECT p.*, u.image AS revImage, u.shop_name
+    //     FROM products AS p
+    //     INNER JOIN user_table AS u ON  p.userID = u.id";
+    // }
     public function AdminInven()
     {
-        return "SELECT p.*, u.image AS revImage, u.shop_name
+        return "SELECT p.*, u.image AS revImage, u.shop_name,u.id,COUNT(p.userID) as products
         FROM products AS p
-        INNER JOIN user_table AS u ON  p.userID = u.id";
+        INNER JOIN user_table AS u ON  p.userID = u.id GROUP BY p.userID";
     }
     public function getPurch()
     {
@@ -56,7 +67,7 @@ class data
         FROM `transaction` AS t
         INNER JOIN products AS p ON t.product_id = p.product_ID
         INNER JOIN user_table AS u ON t.customer_id = u.id
-        WHERE t.`status` IN (1, 2, 3, 4) AND t.`customer_id` = ?;
+        WHERE t.`status` IN (5) AND t.`customer_id` = ?;
         ";
     }  
     public function doDeleteProductData()
@@ -72,7 +83,7 @@ class data
     }
     public function getAllProductFromIndex()
     {
-        return "SELECT * FROM `products`";
+        return "SELECT * FROM `products` WHERE status != 2";
     }
 
     public function getAllProductsQuery()
@@ -145,6 +156,10 @@ class data
     {
         return "DELETE FROM `my_cart` WHERE `cart_id` = ?";
     }
+    public function getDisplayReportData()
+    {
+         return "SELECT * FROM `complaints`";
+    }
     public function getCustomerData()
     {
         return "SELECT * FROM `user_table` WHERE `role` = 1 ORDER BY `created_date`";
@@ -152,12 +167,18 @@ class data
     public function getSellerData()
     {
         return "SELECT * FROM `user_table` WHERE `role` = 2 ORDER BY `created_date`";
-    }
+    }    
     public function UpdateLock(){
         return "UPDATE `user_table` SET `disabled` = ? WHERE id = ?";
     }
+    public function UpdateDisabledProducts(){
+        return "UPDATE `products` SET `status` = 2 WHERE userID = ?";
+    }
     public function UpdateUnlockData(){
         return "UPDATE `user_table` SET `disabled` = 0 WHERE id = ?";
+    }
+    public function UpdateUnDisabledProducts(){
+        return "UPDATE `products` SET `status` = 1 WHERE userID = ?";
     }
     public function DeleteCus()
     {
@@ -247,11 +268,19 @@ class data
             "UPDATE `orders` SET orders_status = 3 WHERE order_id = ?"
         ];
     }
-    public function ReceiveItem()
+    public function ArrivedItem()
     {
         return [
             "UPDATE `transaction` SET status = 4 WHERE id = ?",
             "UPDATE `orders` SET orders_status = 4 WHERE order_id = ?"
+        ];
+    }
+
+    public function ReceiveItem()
+    {
+        return [
+            "UPDATE `transaction` SET status = 5 WHERE id = ?",
+            "UPDATE `orders` SET orders_status = 5 WHERE order_id = ?"
         ];
     }
 
@@ -339,7 +368,7 @@ class data
 
     public function dchart()
     {
-        return "SELECT MONTHNAME(o.order_date) AS month, SUM(o.total_amount) AS total_sum
+        return "SELECT MONTHNAME(o.order_date) AS month,o.total_amount ,SUM(o.total_amount*o.quantity) as total_sum
         FROM user_table AS u
         INNER JOIN orders AS o ON o.seller_id = u.id
         WHERE o.seller_id = ?
@@ -362,12 +391,11 @@ class data
     }
     public function getHisto()
     {
-        return "SELECT p.product_ID, p.product_name, o.quantity, o.total_amount, (o.total_amount*o.quantity) AS totalPrice, o.order_date, t.status
+        return "SELECT p.product_ID, p.product_name, o.quantity, o.total_amount, (o.total_amount*o.quantity) AS totalPrice, o.order_date
         FROM orders AS o 
         INNER JOIN products AS p ON p.product_ID = o.product_id
-        INNER JOIN transaction t ON t.product_id = o.product_id
         WHERE o.seller_id = ?
-        AND t.status IN (1, 2, 3, 4)";
+        AND o.orders_status IN (0 , 1, 2, 3, 4 , 5)";
     }
     public function doAddReview()
     {
@@ -476,17 +504,9 @@ class data
             WHERE message.inbox_id = ?
         ";
     }
-    // public function SELECTID()
-    // {
-    //     return "SELECT * FROM `my_cart` WHERE cart_id = ?";
-    // }
     public function SELECTID()
     {
-        return "SELECT u.image AS userImage, u.shop_name, u.permanent_add,c.product_id,p.product_image,c.cart_id
-        FROM `my_cart` AS c
-        INNER JOIN `user_table` AS u ON u.id = c.customer_id
-        INNER JOIN `products` AS p ON p.product_ID = c.product_id
-        WHERE c.cart_id = ?";
+        return "SELECT * FROM `my_cart` WHERE cart_id = ?";
     }
     public function dataOrderProcess()
     {

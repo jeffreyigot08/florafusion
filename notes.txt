@@ -32,6 +32,13 @@ seller
 * change also the status - fix
 * add plant image in table - fix
 
+admin 
+*fix inventory
+*fix seller
+*fix dashboard
+*fix sold history
+
+
 
 
 

@@ -12,6 +12,7 @@ createApp({
             Aups: [],
             selectedId: 0,
             search: '',
+            product_ID:0,
             
         }
     },
@@ -31,16 +32,21 @@ createApp({
                 }
             })
         },
-        GetProductFromIndex:function(){
+        GetProductDetails:function(){
+            const params = new URLSearchParams(new URL(window.location.href).search);
+            const id = params.get("id");
             const vue = this;
             var data = new FormData();
-            data.append("method", "adminInven");
+            data.append("method", "adminProd");
             axios.post('/florafusionmarket/includes/router.php', data)
             .then(function(r){
+                // alert(r.data);
                 vue.Aups = [];
-                for(const v of r.data){
+                for(const v of r.data)
+                if (v.userID == id) {
                     vue.Aups.push({
-                        id : v.product_ID,
+                        id:v.userID,
+                        product_ID : v.product_ID,
                         image : v.product_image,
                         name: v.product_name,
                         price: v.product_price,
@@ -53,6 +59,7 @@ createApp({
                 }
             })
         },
+        
         GETselectedId:function(id){
             this.selectedId = id;
         },
@@ -118,6 +125,6 @@ createApp({
         }
     },
     created:function(){
-        this.GetProductFromIndex();
+        this.GetProductDetails();
     }
 }).mount('#adminUP')

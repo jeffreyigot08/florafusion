@@ -16,7 +16,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/tailwind.css">
     <link rel="stylesheet" href="./assets/css/sweetalert.css">
-    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <title>Customer List</title>
 </head>
 
 <body>
@@ -84,7 +85,7 @@
 
                 <!-- Sellers Table -->
                 <div class="mt-6">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200" id="ordersTable">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
@@ -133,7 +134,8 @@
                                     {{ cus.id }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <img :src="'../assets/img/'+cus.image" alt="Seller Image" class="h-8 w-8">
+                                <a :href="'../assets/img/' +cus.image" target="_blank">
+                                    <img :src="'../assets/img/'+cus.image" alt="Seller Image" class="h-8 w-8"></a>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{cus.name }}
@@ -148,7 +150,7 @@
                                     {{ cus.permanent_add }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                {{ cus.gender === 2 ? 'female' : (cus.gender === 1 ? 'male' : '') }}
+                                {{cus.gender == 1 ? 'MALE' : cus.gender == 2 ? 'FEMALE'  :  ''}}
                                 </td>
                                 <!-- lock or unlock  user-->
                                 <td>
@@ -174,6 +176,8 @@
     <script src="../assets/services/axios.js"></script>
     <script src="../assets/services/customerInfo.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+     <script src="../assets/services/jquery.js"></script>
+                <script src="../assets/services/dataTables.js"></script>
 </body>
 
 </html>

@@ -122,7 +122,7 @@ $role = $_SESSION['id'];
                                 </td>
                                 <td>
                                     <span class="badge rounded-pill bg-primary">
-                                    {{o.status == 0 ? 'PENDING' : o.status == 1 ? 'DELIVER' : o.status == 2 ? 'PACKED' : o.status == 3 ? 'SHIPPED' : o.status == 4 ? 'RECEIVE'  :  'DONE'}}
+                                    {{o.status == 0 ? 'PENDING' : o.status == 1 ? 'Approved' : o.status == 2 ? 'PACKED' : o.status == 3 ? 'SHIPPED' : o.status == 4 ? 'ARRIVED'  :  'RECEIVE'}}
                                     </span>
                     
                                 </td>
@@ -152,10 +152,11 @@ $role = $_SESSION['id'];
                                         <p>Quantity : {{quantity}}</p>
                                         <p>PRICE : {{price}}</p>
                                         <p>TOTAL : {{amount}}</p>                            
-                                        <button v-if="status == 0" @click.prevent="StatusDeliver(id)" class="btn btn-info text-light btn-md fw-bold float-end mt-3">Deliver</button>
+                                        <button v-if="status == 0" @click.prevent="StatusApprove(id)" class="btn btn-info text-light btn-md fw-bold float-end mt-3">Approved</button>
                                         <button v-if="status == 1" @click.prevent="StatusPacked(id)" class="btn btn-success text-light btn-md fw-bold float-end mt-3">Packed</button>
                                         <button v-if="status == 2" @click.prevent="StatusShipped(id)" class="btn btn-warning text-light btn-md fw-bold float-end mt-3">Mark as Shipped</button>
-                                        <button v-if="status == 3" @click.prevent="StatusReceive(id,4)" class="btn btn-primary text-light btn-md fw-bold float-end mt-3">Mark as Receive</button>
+                                        <button v-if="status == 3" @click.prevent="StatusArrived(id)" class="btn btn-primary text-light btn-md fw-bold float-end mt-3">Mark as Arrived</button>
+                                        <button v-if="status == 4" @click.prevent="StatusReceive(id)" class="btn btn-primary text-light btn-md fw-bold float-end mt-3">Mark as Receive</button>
                                         <button type="button" class="btn  btn-dark float-end mt-3 me-2" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </form>

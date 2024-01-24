@@ -15,6 +15,9 @@ createApp({
         }
     },
     methods:{
+        viewSales(seller_ID) {
+            window.location.href = `inventory_prod.php?id=${seller_ID}`;
+        },
         GetProductFromIndex:function(){
             const vue = this;
             var data = new FormData();
@@ -24,6 +27,8 @@ createApp({
                 vue.products = [];
                 for(const v of r.data){
                     vue.products.push({
+                        seller_id : v.id,
+                        total_products:v.products,
                         product_ID : v.product_ID,
                         image : v.product_image,
                         name: v.product_name,

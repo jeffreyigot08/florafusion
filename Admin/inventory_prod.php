@@ -101,11 +101,9 @@ $role = $_SESSION['id'];
                         <th class="py-2 px-3 bg-gray-200">Quantity</th>
                         <th class="py-2 px-3 bg-gray-200">Price</th>
                         <th class="py-2 px-3 bg-gray-200">Description</th>
-                        <!-- <th class="py-2 px-3 bg-gray-200">Actions</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Sample inventory items (you can use a loop to populate these) -->
                     <tr v-for="Aup in searchData">
                         <td class="px-6 py-4 whitespace-nowrap flex items-center">
                             <!-- Seller Image -->
@@ -119,49 +117,11 @@ $role = $_SESSION['id'];
                         <td class="py-2 px-3">{{ Aup.qty }}</td>
                         <td class="py-2 px-3">{{ Aup.price }}</td>
                         <td class="py-2 px-3">{{ Aup.desc }}</td>
-                        <!-- <td class="py-2 px-3">
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md ml-2"
-                        data-bs-toggle="modal" data-bs-target="#displayprod">Display</button>
-                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-md ml-2"
-                        data-bs-toggle="modal" data-bs-target="#updateprod">Update</button>
-                    <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md ml-2"
-                        data-bs-toggle="modal" data-bs-target="#deleteprod">Delete</button>
-                </td> -->
                     </tr>
                 </tbody>
             </table>
         </div>
-
-
-        <!-- Modal for Add Category -->
-        <!-- <div class="modal fade" id="addprod" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content p-4">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-2xl font-semibold mb-4" id="addprod">Add Products</h5>
-                    </div> -->
-                    <!-- <form @submit="addproducts" class="productform"> -->
-                        <!-- Image -->
-                        <!-- <input type="file" class="mt-1 p-2 w-full border rounded" name="file" id="image"> -->
-                        <!-- Product -->
-                        <!-- <input type="text" placeholder="Product Name" class="mt-1 p-2 w-full border rounded"
-                            name="name"> -->
-                        <!-- Total Products -->
-                        <!-- <input type="text" placeholder="Total Products" class="mt-1 p-2 w-full border rounded"
-                            name="price"> -->
-                        <!-- Total Products -->
-                        <!-- <input type="text" placeholder="Total Price" class="mt-1 p-2 w-full border rounded" name="qty"> -->
-                        <!-- Description -->
-                        <!-- <input type="text" placeholder="Description" class="mt-1 p-2 w-full border rounded" name="desc"> -->
-                        <!-- Add Button -->
-                        <!-- <div class="d-flex flex-row-reverse">
-                            <button
-                                class="bg-green-500 mt-3 text-white rounded-md py-2 px-4 mx-2 my-2 hover:bg-green-600">Add</button>
-                        </div>
-                    </form>
-                </div>
-            </div> -->
-        </div>
+</div>
     
 
 

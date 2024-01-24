@@ -110,6 +110,11 @@ createApp({
                         permanent_add: v.permanent_add,
                     })
                 }
+                setTimeout(function(){
+                    if (!$.fn.DataTable.isDataTable('#ordersTable')) {
+                      $('#ordersTable').dataTable();
+                    }
+                }, 100);
                 vue.customerLength = r.data.length;
                 return vue.customerLength;
             })

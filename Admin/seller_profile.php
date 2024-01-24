@@ -16,7 +16,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/tailwind.css">
     <link rel="stylesheet" href="./assets/css/sweetalert.css">
-    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <title>Seller List</title>
 </head>
 
 <body>
@@ -85,7 +86,7 @@
 
                 <!-- Sellers Table -->
                 <div class="mt-6">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200" id="ordersTable">
                     <thead class="bg-gray-50">
     <tr>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -127,12 +128,13 @@
 
                         <tbody class="bg-white divide-y divide-gray-200">
                             <!-- Add your table rows for sellers here -->
-                            <tr v-for="s in seller">
+                            <tr v-for=" s in seller">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ s.id }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <img :src="'../assets/img/'+s.image" alt="Seller Image" class="h-8 w-8">
+                                <a :href="'../assets/img/' +s.image" target="_blank">
+                                    <img :src="'../assets/img/'+s.image" alt="Seller Image" class="h-8 w-8"></a>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ s.name }}
@@ -147,14 +149,15 @@
                                     {{ s.contact_no }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                <img :src="'../assets/img/'+s.qr_image" alt="Seller Image" class="h-8 w-8">
+                                <a :href="'../assets/img/' +s.qr_image" target="_blank">
+                                <img :src="'../assets/img/'+s.qr_image" alt="Seller Image" class="h-8 w-8"></a>
                                     <!-- {{ s.gcash_image }} -->
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ s.shop_name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">    
-                                {{ s.gender === 2 ? 'female' : (s.gender === 1 ? 'male' : '') }}
+                                {{s.gender == 1 ? 'MALE' : s.gender == 2 ? 'FEMALE'  :  ''}}
                             </td>
 
                                 <!-- lock or unlock user -->
@@ -183,5 +186,7 @@
         <script src="../assets/services/vue.3.js"></script>
         <script src="../assets/services/sellerInfo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="../assets/services/jquery.js"></script>
+                <script src="../assets/services/dataTables.js"></script>
 </body>
 </html>

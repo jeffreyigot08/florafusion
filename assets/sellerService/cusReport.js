@@ -16,6 +16,7 @@ createApp({
                 vue.reports = [];
                 for(const v of r.data){
                     vue.reports.push({
+                        report_id:v.id,
                         typeOfComplaints : v.typeOfComplaints,
                         selectType : v.selectType,
                         shopName : v.shopName,
@@ -28,6 +29,11 @@ createApp({
                         image : v.image,
                     })
                 }
+                setTimeout(function(){
+                    if (!$.fn.DataTable.isDataTable('#reportsTable')) {
+                      $('#reportsTable').dataTable();
+                    }
+                }, 100);
             })
         }
     },

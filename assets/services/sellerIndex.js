@@ -2,6 +2,8 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
+            totalsales:0,
+            totalsaleslength:0,
             order: [],
             plant: [],
             plantlength: 0,
@@ -52,20 +54,21 @@ createApp({
         getchart: function () {
             const vue = this;
             var data = new FormData();
-            const chartData = [];
-
+        
             data.append("method", "doDSchart");
             axios.post('../includes/router.php', data)
-
                 .then(function (r) {
                     const ctx = document.getElementById('myChart').getContext('2d');
                     const response = r.data;
-
+        
                     const labels = response.map(item => item.month);
                     const dataValues = response.map(item => item.total_sum);
-
+        
+                    const totalSum = dataValues.reduce((acc, value) => acc + value);
+                    vue.totalsales = totalSum; 
+        
                     new Chart(ctx, {
-                        type: 'bar', // You can choose the chart type you prefer (e.g., 'bar', 'line', 'pie', etc.)
+                        type: 'bar',
                         data: {
                             labels: labels,
                             datasets: [
@@ -86,8 +89,9 @@ createApp({
                             },
                         },
                     });
-                })
+                });
         }
+             
     },
     created: function () {
         this.getUserOrder();

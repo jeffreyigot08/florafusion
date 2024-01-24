@@ -61,17 +61,17 @@ createApp({
                 return vue.cartlistLength;
             });
         },
-        StatusDeliver: function (id) {
+        StatusApprove: function (id) {
             const vm = this;
             
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Do you want to Deliver this Order?',
+                text: 'Do you want to Approve this Order?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Deliver it!'
+                confirmButtonText: 'Yes, Approve it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     const data = new FormData();
@@ -83,7 +83,7 @@ createApp({
                         console.log(r.data);
                         if (r.data.success) {
                             Swal.fire({
-                                title: 'Delivered',
+                                title: 'Approve',
                                 text: r.data.message,
                                 icon: 'success',
                                 timer: 2000, 
@@ -175,6 +175,45 @@ createApp({
                 }
             });
         },         
+        StatusArrived: function (id) {
+            const vm = this;
+            
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to Arrived this Orders?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, mark as Arrived!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const data = new FormData();
+                    data.append('method', 'updatestatusArrived');
+                    data.append('status', 'status');
+                    data.append('id', id);
+        
+                    axios.post('../includes/router.php', data).then(r => {
+                        console.log(r.data);
+                        if (r.data.success) {
+                            Swal.fire({
+                                title: 'Receive',
+                                text: r.data.message,
+                                icon: 'success',
+                                timer: 2000, 
+                                showConfirmButton: false
+                            });
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            Swal.fire('Error', r.data.message, 'error');
+                        }
+                    });
+                }
+            });
+        }, 
+
         StatusReceive: function (id) {
             const vm = this;
             
@@ -212,7 +251,8 @@ createApp({
                     });
                 }
             });
-        },        
+        },  
+              
       //seller
         Orders: function () {
             const vue = this;
@@ -247,15 +287,25 @@ createApp({
             .then(function (r) {
                 vue.customerOrders = [];
                 for (const v of r.data) {
+                 
+                    const orderDate = new Date(v.order_date);
+                    
+                  
+                    const formattedDate = orderDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });      
                     vue.customerOrders.push({
                         order_id: v.order_id,
-                        image:v.product_image,
-                        name :v.order_name,
-                        productname:v.product_name,
-                        orderstatus:v.orders_status,
-                        quantity:v.quantity,
-                        amount:v.total_amount,
-                    })
+                        image: v.product_image,
+                        name: v.order_name,
+                        productname: v.product_name,
+                        orderstatus: v.orders_status,
+                        date: formattedDate, // Use the formatted date
+                        quantity: v.quantity,
+                        amount: v.total_amount,
+                    });
                 }
             })
         },

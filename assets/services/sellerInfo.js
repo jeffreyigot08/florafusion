@@ -19,7 +19,7 @@ createApp({
                 for(const v of r.data){
                     vue.seller.push({
                         id: v.id,
-                        name: v.name,
+                        name: v.name,   
                         role: v.role,
                         status: v.status,
                         gender:v.gender,
@@ -32,8 +32,14 @@ createApp({
                         permanent_add: v.permanent_add,
                     })
                 }
+                setTimeout(function(){
+                    if (!$.fn.DataTable.isDataTable('#ordersTable')) {
+                      $('#ordersTable').dataTable();
+                    }
+                }, 100);
                 vue,sellerLength = r.data.length;
                 return this.sellerLength;
+
             })
         },
         UnlockAccount: function(id) {

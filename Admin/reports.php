@@ -16,6 +16,8 @@ $role = $_SESSION['id'];
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/tailwind.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
     <title>Admin Dashboard</title>
 </head>
 
@@ -77,11 +79,12 @@ $role = $_SESSION['id'];
                     alt="default" style="height:35px;width:35px;border-radius: 40px;"></i></button>
             <!-- <i class="fas fa-user-circle text-4xl text-green-400 absolute top-0 right-0 mr-4 mt-4"></i> -->
 
-            <div class="container mx-auto">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white border border-gray-300">
+            <div class="container mt-5">
+                <div class="overflow-x-auto mt-5">
+                    <table class="min-w-full bg-white border border-gray-300 mt-5" id="reportsTable">
                         <thead>
                             <tr>
+                                <th  class="py-2 px-6 border-b">ID</th>
                                 <th class="py-2 px-6 border-b">Query Type</th>
                                 <th class="py-2 px-6 border-b">Issue</th>
                                 <th class="py-2 px-6 border-b">Shop Name</th>
@@ -96,6 +99,7 @@ $role = $_SESSION['id'];
                         </thead>
                         <tbody>
                             <tr v-for="report in reports">
+                                <td class="py-2 px-4 border-b">{{report.report_id}}</td>
                                 <td class="py-2 px-4 border-b">{{  report.typeOfComplaints === 1 ? "Complaint/Feedback" : report.typeOfComplaints === 2 
                                     ? "Pre-order Inquiry" : report.typeOfComplaints === 3 ? "Post-order Inquiry" : "Website Issue" }}</td>
                                 <td class="py-2 px-4 border-b">{{ report.selectType === 1 ? "Non-Delivery" : report.selectType === 2
@@ -109,8 +113,9 @@ $role = $_SESSION['id'];
                                 <td class="py-2 px-4 border-b">{{ report.phoneNo }}</td>
                                 <td class="py-2 px-4 border-b">{{ report.comments }}</td>
                                 <td class="py-2 px-4 border-b">
+                                <a :href="'../assets/img/' +report.image" target="_blank">
                                     <img :src="'../assets/img/' + report.image" alt="Image"
-                                        class="h-8 w-8 object-cover rounded-full">
+                                        class="h-8 w-8 object-cover rounded-full"></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -123,6 +128,8 @@ $role = $_SESSION['id'];
 <script src="../assets/services/vue.3.js"></script>
 <script src="../assets/services/axios.js"></script>
 <script src="../assets/sellerService/cusReport.js"></script>
+<script src="../assets/services/jquery.js"></script>
+                <script src="../assets/services/dataTables.js"></script>
 </body>
 
 </html>
