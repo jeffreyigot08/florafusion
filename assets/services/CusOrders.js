@@ -264,6 +264,7 @@ createApp({
                 for (const v of r.data) {
                     vue.orders.push({
                         id: v.id,
+                        quantity:v.quantity,
                         image:v.product_image,
                         name :v.order_name,
                         date:v.date,

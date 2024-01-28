@@ -50,12 +50,6 @@ $role = $_SESSION['role'];
                     </a>
                 </li>
                 <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
-                    <a href="../Seller/sold_his.php" class="flex items-center space-x-2">
-                        <i class="fas fa-history h-5 w-5 fill-current text-white"></i>
-                        <span class="text-white font-medium hover:text-gray-300">Sold History</span>
-                    </a>
-                </li>
-                <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
                     <a href="../Chats/chat.php" class="flex items-center space-x-2">
                         <i class="fas fa-comments h-5 w-5 fill-current text-white"></i>
                         <span class="text-white font-medium hover:text-gray-300">Chat Support</span>
@@ -97,6 +91,7 @@ $role = $_SESSION['role'];
                 <table class="w-full border-collapse mt-4 mx-8">
                     <thead>
                         <tr class="border-b">
+                            <th class="py-2 px-4 text-left">Transaction Image</th>
                             <th class="py-2 px-4 text-left">Plant Name</th>
                             <th class="py-2 px-4 text-left">Qty</th>
                             <th class="py-2 px-4 text-left">Price</th>
@@ -106,6 +101,7 @@ $role = $_SESSION['role'];
                     </thead>
                     <tbody>
                         <tr class="border-b" v-for="h in searchData">
+                            <td class="py-2 px-4 text-left"> <img :src="'../assets/img/' + h.image"  width="50" height="50"></td>
                             <td class="py-2 px-4">{{ h.name }}</td>
                             <td class="py-2 px-4">{{ h.qty }}</td>
                             <td class="py-2 px-4">{{ h.amount }}</td>

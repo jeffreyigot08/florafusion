@@ -145,65 +145,6 @@ $role = $_SESSION['id'];
                 </tbody>
             </table>
 
-            <table class="w-full border-collapse mt-5">
-                <thead>
-                    <tr>
-                        <th colspan="6" class="py-2 px-4 text-left border-b flex items-center">
-                            <i class="fas fa-store mr-2"></i><a href="seller_shop.php">
-                                Seller Shop Name</a>
-                        </th>
-                    </tr>
-                    <tr class="border-b">
-                        <th class="py-2 px-4 text-left">Plant Image</th>
-                        <th class="py-2 px-4 text-left">Plant Name</th>
-                        <th class="py-2 px-4 text-left">Price</th>
-                        <th class="py-2 px-4 text-left">Quantity</th>
-                        <th class="py-2 px-4 text-left">Total Price</th>
-                        <th class="py-2 px-4 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr class="border-b" v-for="c in carts">
-                        <td class="py-2 px-4">
-                        <img :src="'../assets/img/' + c.pimage" class="your-image-class w-40">
-                        </td>
-
-
-                        <td class="py-2 px-4">
-                            <h3 class="text-lg font-semibold mt-2">{{ c.p_name }}</h3>
-                        </td>
-                        <td class="py-2 px-4">P{{ c.p_price }}</td>
-
-                        <td class="py-2 px-4">
-                            <div class="flex items-center">
-                                <button @click="decrement(c)"
-                                    class="text-gray-500 hover:text-blue-500 focus:outline-none">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <span class="w-12 text-center">{{ c.p_quantity }}</span>
-                                <button @click="increment(c)"
-                                    class="text-gray-500 hover:text-blue-500 focus:outline-none">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </td>
-
-                        <td class="py-2 px-4">{{ c.p_totalPrice }}</td>
-                        <td class="py-2 px-4">
-                            <button class="text-red-500 hover:text-red-700 focus:outline-none"
-                                @click="deleteCart(c.id)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                                <button @click="checkout(c.id)" id="order-details-button" class="bg-blue-500 text-white py-2 px-4 ml-3 rounded hover:bg-blue-600 focus:outline-none">
-                                    Checkout
-                                </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-
                 
 
                 <!-- Modal for Checkout -->

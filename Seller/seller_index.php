@@ -174,7 +174,7 @@ $role = $_SESSION['id'];
             <div class="max-w-5xl mx-auto p-4">
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <div class="p-2 w-64 m-2" v-for="product in products" :key="(product.product_ID)">
-                  <div class="bg-white rounded-lg shadow-md relative" v-if="product.status == 1">
+                  <div class="bg-white rounded-lg shadow-md relative">
                   <img @click="handleImageClick(product.product_ID)" data-bs-toggle="modal" data-bs-target="#View" :src="'../assets/img/' + product.image"alt="plant" class="w-full h-36 object-cover cursor-pointer"/>
                     <div class="p-3 text-center">
                       <h3 class="text-lg font-semibold mb-2">{{ product.name }}</h3>

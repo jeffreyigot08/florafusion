@@ -57,12 +57,6 @@ $role = $_SESSION['id'];
                     </a>
                 </li>
                 <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
-                    <a href="../Seller/sold_his.php" class="flex items-center space-x-2">
-                        <i class="fas fa-history h-5 w-5 fill-current text-white"></i>
-                        <span class="text-white font-medium hover:text-gray-300">Sold History</span>
-                    </a>
-                </li>
-                <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
                     <a href="../Chats/chat.php" class="flex items-center space-x-2">
                         <i class="fas fa-comments h-5 w-5 fill-current text-white"></i>
                         <span class="text-white font-medium hover:text-gray-300">Chat Support</span>

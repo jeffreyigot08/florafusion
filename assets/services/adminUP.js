@@ -34,7 +34,7 @@ createApp({
         },
         GetProductDetails:function(){
             const params = new URLSearchParams(new URL(window.location.href).search);
-            const id = params.get("id");
+            const seller_shop = params.get("seller_shop");
             const vue = this;
             var data = new FormData();
             data.append("method", "adminProd");
@@ -43,7 +43,7 @@ createApp({
                 // alert(r.data);
                 vue.Aups = [];
                 for(const v of r.data)
-                if (v.userID == id) {
+                if (v.shop_name == seller_shop) {
                     vue.Aups.push({
                         id:v.userID,
                         product_ID : v.product_ID,

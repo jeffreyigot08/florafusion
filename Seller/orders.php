@@ -58,12 +58,6 @@ $role = $_SESSION['id'];
                         </a>
                     </li>
                     <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
-                        <a href="../Seller/sold_his.php" class="flex items-center space-x-2">
-                            <i class="fas fa-history h-5 w-5 fill-current text-white"></i>
-                            <span class="text-white font-medium hover:text-gray-300">Sold History</span>
-                        </a>
-                    </li>
-                    <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
                         <a href="../Chats/chat.php" class="flex items-center space-x-2">
                             <i class="fas fa-comments h-5 w-5 fill-current text-white"></i>
                             <span class="text-white font-medium hover:text-gray-300">Chat Support</span>
@@ -90,42 +84,27 @@ $role = $_SESSION['id'];
                     <table id="ordersTable">
                         <thead>
                             <tr>
-                            <td>Order Number</td>
-                            <td>Order Image</td>
-                            <td>Name</td>
-                            <td>Date</td>
-                            <td>Amount</td>
-                            <td>Payment Method</td>
-                            <td>Payment Status</td>
-                            <td>ACTION</td>
+                            <th>Order Number</th>
+                            <th>Order Image</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Quantity</th>
+                            <td>Amount</th>
+                            <td>Payment Method</th>
+                            <td>Payment Status</th>
+                            <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr  v-for="(o, index) in orders">
-                                <td>
-                                {{index + 1}}
-                                </td>
-                                <td>
-                                <img :src="'../assets/img/' + o.image"  width="100" height="100">
-                                </td>
-                                <td class="text-center">
-                                {{o.name}}
-                                </td>
-                                <td>
-                                {{o.date}}
-                                </td>
-                                <td>
-                                {{o.amount}}
-                                </td>
-                                <td>
-                                {{o.payment == 1 ? 'GCASH' : o.payment == 2 ? 'COD'  :  'NO PAYMENT'}}
-                                </td>
-                                <td>
-                                    <span class="badge rounded-pill bg-primary">
-                                    {{o.status == 0 ? 'PENDING' : o.status == 1 ? 'Approved' : o.status == 2 ? 'PACKED' : o.status == 3 ? 'SHIPPED' : o.status == 4 ? 'ARRIVED'  :  'RECEIVE'}}
-                                    </span>
-                    
-                                </td>
+                                <td>{{index + 1}}</td>
+                                <td><img :src="'../assets/img/' + o.image"  width="100" height="100"></td>
+                                <td class="text-center">{{o.name}}</td>
+                                <td>{{o.date}}</td>
+                                <td>{{o.quantity}}</td>
+                                <td>{{o.amount}}</td>
+                                <td>{{o.payment == 1 ? 'GCASH' : o.payment == 2 ? 'COD'  :  'NO PAYMENT'}}</td>
+                                <td><span class="badge rounded-pill bg-primary">{{o.status == 0 ? 'PENDING' : o.status == 1 ? 'Approved' : o.status == 2 ? 'PACKED' : o.status == 3 ? 'SHIPPED' : o.status == 4 ? 'ARRIVED'  :  'RECEIVE'}}</span></td>
                                 <td>
                                 <button class="btn view-order"  @click="fnGetDataProducts(o.id)" data-bs-toggle="modal" data-bs-target="#exampleModal">👁️</button>
                                 <button class="btn delete-order"  @click="DeleteOrders(o.id)">🗑️</button>
@@ -149,9 +128,9 @@ $role = $_SESSION['id'];
                                         <p>Address: {{address}}</p>
                                         <p>Contact Number: {{contact_no}}</p>
                                         <p>Proof Of Payment <a :href="'../assets/img/' + image" target="_blank"><img :src="'../assets/img/' + image" class="your-image-class w-40 ml-8 mb-3 mt-3"alt="Product Image"></p></a></td>
-                                        <p>Quantity : {{quantity}}</p>
+                                        <!-- <p>Quantity : {{quantity}}</p>
                                         <p>PRICE : {{price}}</p>
-                                        <p>TOTAL : {{amount}}</p>                            
+                                        <p>TOTAL : {{amount}}</p>                             -->
                                         <button v-if="status == 0" @click.prevent="StatusApprove(id)" class="btn btn-info text-light btn-md fw-bold float-end mt-3">Approved</button>
                                         <button v-if="status == 1" @click.prevent="StatusPacked(id)" class="btn btn-success text-light btn-md fw-bold float-end mt-3">Packed</button>
                                         <button v-if="status == 2" @click.prevent="StatusShipped(id)" class="btn btn-warning text-light btn-md fw-bold float-end mt-3">Mark as Shipped</button>

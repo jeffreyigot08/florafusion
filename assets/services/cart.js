@@ -77,6 +77,7 @@ createApp({
                             pimage: v.product_image,
                             p_name: v.product_name,
                             p_price: v.product_price,
+                            shop_name:v.shop_name,
                             p_quantity: v.quantity,
                             p_totalPrice: v.totalPrice,
                             id: v.cart_id,

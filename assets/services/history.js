@@ -8,13 +8,19 @@ createApp({
             lengthSold: 0,
             SumTP: 0,
             search: '',
+            salesReport:[]
         }
     },
     methods:{
         getHistory: function () {
+            const params = new URLSearchParams(new URL(window.location.href).search);
+            const id = params.get("id");
+            const ordermonth = params.get("ordermonth");
+            const orderyear = params.get("orderyear");
             const vue = this;
             var data = new FormData();
             data.append("method", "history");
+        
             axios.post('../includes/router.php', data)
                 .then(function (r) {
                     vue.history = [];
@@ -22,21 +28,59 @@ createApp({
                     let totalPriceSum = 0;
         
                     for (var v of r.data) {
-                        vue.history.push({
-                            name: v.product_name,
-                            qty: v.quantity,
-                            amount: v.total_amount,
-                            TP: v.totalPrice,
-                            date: v.order_date
-                        });
+                        if (v.customerId == id && v.ordermonth == ordermonth && v.orderyear == orderyear) {
+                            vue.history.push({
+                                name: v.product_name,
+                                qty: v.quantity,
+                                amount: v.total_amount,
+                                TP: v.totalPrice,
+                                date: v.order_date,
+                                id: v.customerId,
+                                image: v.product_image,
+                                mount: v.ordermonth,
+                                year: v.orderyear,
+                            });
         
-                        // Update the total quantity sold and total price sum
-                        totalQuantitySold += parseInt(v.quantity);
-                        totalPriceSum += parseFloat(v.totalPrice);
+                            totalQuantitySold += parseInt(v.quantity);
+                            totalPriceSum += parseFloat(v.totalPrice);
+                        }
                     }
-                    vue.lengthSold = totalQuantitySold;
-                    vue.SumTP = totalPriceSum;
+        
+                    if (vue.history.length > 0) {
+                        vue.lengthSold = totalQuantitySold;
+                        vue.SumTP = totalPriceSum;
+                    } else {
+                        console.log("No records found for customer with id:", id);
+                    }
+                });
+        },
+        
+        Customer(customerName,id,month, year) {
+            window.location.href = `sold_his.php?&customerName=${customerName}&id=${id}&ordermonth=${month}&orderyear=${year}`;
+        },
+        getSalesReport: function () {
+            const vue = this;
+            var data = new FormData();
+            data.append("method", "displaySellReport");
+            axios.post('../includes/router.php', data)
+                .then(function (r) {
+                    vue.salesReport = [];
+        
+                    for (var v of r.data) {
+                        vue.salesReport.push({
+                            id:v.customerId,
+                            name: v.customerName,
+                            month: v.ordermonth,
+                            year: v.orderyear,
+                            date: v.orderdate,
+                        });
+                    }
                 })
+                setTimeout(function(){
+                    if (!$.fn.DataTable.isDataTable('#salesReportTable')) {
+                      $('#salesReportTable').dataTable();
+                    }
+                }, 100);
         },
     },
     computed:{
@@ -51,6 +95,7 @@ createApp({
     },
     created:function(){
         this.getHistory();
+        this.getSalesReport();
 
     }
 }).mount('#histo');

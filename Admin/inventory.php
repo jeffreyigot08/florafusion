@@ -114,8 +114,7 @@ $role = $_SESSION['id'];
                             <td class="px-6 py-4 whitespace-nowrap">{{ product.total_products }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md ml-2">
-                                    <!-- <a href="inventory_prod.php">View</a> -->
-                                    <a @click="viewSales(product.seller_id)" class="btn btn-primary">VIEW</a>
+                                    <a @click="viewShopName(product.shop_name)" class="btn btn-primary">VIEW</a>
                                 </button>
                             </td>
                         </tr>

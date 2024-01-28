@@ -15,8 +15,8 @@ createApp({
         }
     },
     methods:{
-        viewSales(seller_ID) {
-            window.location.href = `inventory_prod.php?id=${seller_ID}`;
+        viewShopName(shopName) {
+            window.location.href = `inventory_prod.php?seller_shop=${shopName}`;
         },
         GetProductFromIndex:function(){
             const vue = this;

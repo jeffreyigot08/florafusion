@@ -56,12 +56,6 @@ $role = $_SESSION['role'];
                             <span class="text-white font-medium hover:text-gray-300">Sales Report</span>
                         </a>
                     </li>
-                    <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
-                        <a href="../Seller/sold_his.php" class="flex items-center space-x-2">
-                            <i class="fas fa-history h-5 w-5 fill-current text-white"></i>
-                            <span class="text-white font-medium hover:text-gray-300">Sold History</span>
-                        </a>
-                    </li>
                 <li class="hover:bg-green-700 p-2 rounded-md cursor-pointer">
                     <a href="../Chats/chat.php" class="flex items-center space-x-2">
                         <i class="fas fa-comments h-5 w-5 fill-current text-white"></i>
@@ -86,15 +80,18 @@ $role = $_SESSION['role'];
             <div class="mb-4 mt-20">
                 <div class="relative ml-auto">
                     <button type="button" class="btn bg-green-600 hover:bg-green-700 text-white" data-bs-toggle="modal" data-bs-target="#addproduct">Add Plants</button>
-                    <button class="btn bg-green-600 hover:bg-green-700 text-white"><a href="inventoryprod.php" class="text-white no-underline">View</a></button>
+                    <!-- <button class="btn bg-green-600 hover:bg-green-700 text-white"><a href="inventoryprod.php" class="text-white no-underline">View</a></button> -->
                 </div>
             </div>
             <!-- table -->
             <table class="table text-center" id="inventorytable">
                 <thead>
                     <tr>
+                        <th scope="col">Plant ID</th>
                         <th scope="col">Plant Image</th>
                         <th scope="col">Plant Name</th>
+                        <th scope="col">Plant Description</th>
+                        <th scope="col">Plant Price</th>
                         <th scope="col">Total Plant</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -143,8 +140,8 @@ $role = $_SESSION['role'];
                                     <div class="col-12 mb-3">
                                         <label for="pfile">Plant Image</label>
                                         <input type="file" name="file" class="form-control upimage" required>
-                                        <input type="file" name="file2" class="form-control upimage" required>
-                                        <input type="file" name="file3" class="form-control upimage" required>
+                                        <input type="file" name="file2" class="form-control upimage2" required>
+                                        <input type="file" name="file3" class="form-control upimage3" required>
                                     </div>
                                 </div>
                             </div>
@@ -214,8 +211,8 @@ $role = $_SESSION['role'];
                                     <div class="col-6 mb-3">
                                         <label for="pfile">Plant Image</label>
                                         <input type="file" name="fileToUpload" class="form-control upimage" required>
-                                        <input type="file" name="fileToUpload2" class="form-control upimage" required>
-                                        <input type="file" name="fileToUpload3" class="form-control upimage" required>
+                                        <input type="file" name="fileToUpload2" class="form-control upimage2" required>
+                                        <input type="file" name="fileToUpload3" class="form-control upimage3" required>
                                     </div>
                                 </div>
                             </div>

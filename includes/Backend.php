@@ -1939,7 +1939,7 @@ private function getDisplayUnLock($id)
     
                         // Insert Transaction
                         $insertQueryTransaction = $con->getCon()->prepare($DT->dataOrderTransactionProcess());
-                        $insertQueryTransaction->execute([$customer_id, $seller_id, $product_id, $product_price * $quantity, $paymethod, $image, $status]);
+                        $insertQueryTransaction->execute([$customer_id, $seller_id, $product_id, $product_price * $quantity,$quantity, $paymethod, $image, $status]);
     
                         $con->getCon()->commit();
                         $con->closeConnection();

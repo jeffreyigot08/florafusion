@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2024 at 04:16 AM
+-- Generation Time: Jan 28, 2024 at 06:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -144,13 +144,8 @@ CREATE TABLE `my_cart` (
 --
 
 INSERT INTO `my_cart` (`cart_id`, `seller_id`, `customer_id`, `product_id`, `product_price`, `quantity`, `is_checkout`) VALUES
-(23, 37, 42, 71, 400, 7, 1),
 (24, 37, 37, 70, 200, 1, 0),
-(25, 37, 37, 71, 400, 1, 0),
-(26, 39, 42, 62, 300, 1, 1),
-(27, 39, 42, 64, 360, 10, 1),
-(28, 37, 42, 66, 360, 1, 1),
-(32, 39, 36, 64, 360, 1, 1);
+(25, 37, 37, 71, 400, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -178,7 +173,11 @@ INSERT INTO `orders` (`order_id`, `customer_id`, `seller_id`, `product_id`, `qua
 (17, 36, 37, 70, 1, 200.00, 0, '2024-01-17 01:47:49'),
 (18, 36, 37, 67, 1, 250.00, 0, '2024-01-17 01:48:12'),
 (19, 36, 37, 70, 1, 200.00, 0, '2024-01-17 01:48:42'),
-(20, 36, 42, 72, 1, 123.00, 1, '2024-01-21 02:56:02');
+(20, 36, 42, 72, 1, 123.00, 5, '2024-01-21 02:56:02'),
+(21, 36, 42, 72, 1, 123.00, 1, '2024-01-27 10:09:55'),
+(22, 36, 39, 62, 4, 1200.00, 0, '2024-01-27 10:13:32'),
+(23, 36, 37, 70, 8, 1600.00, 0, '2024-01-27 10:14:00'),
+(24, 42, 37, 70, 1, 200.00, 0, '2024-01-27 11:50:48');
 
 -- --------------------------------------------------------
 
@@ -205,13 +204,13 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_ID`, `userID`, `product_image`, `product_image2`, `product_image3`, `product_name`, `product_qty`, `product_price`, `product_des`, `status`, `created_date`) VALUES
-(62, 39, 'cactus.jpg', 'cactus1.jpg', 'cactus2.jpg', 'Cactus', 100, 300, 'Cactuses, or cacti, are desert plants.', 1, '2023-12-20 03:08:27'),
+(62, 39, 'cactus.jpg', 'cactus1.jpg', 'cactus2.jpg', 'Cactus', 96, 300, 'Cactuses, or cacti, are desert plants.', 1, '2024-01-27 10:13:32'),
 (64, 39, 'Spider Plant.jpg', 'Spider Plant1.jpg', 'Spider Plant2.jpg', 'Spider Plant', 90, 360, 'This herbaceous plant, has narrow, strap-shaped leaves. ', 1, '2023-12-20 03:14:12'),
 (66, 37, 'Lavender.jpg', 'Lavender1.jpg', 'Lavender2.jpg', 'Lavender', 399, 360, 'A medium purple or a light pinkish-purple. ', 1, '2024-01-16 06:58:20'),
 (67, 37, 'Orchids.jpg', 'Orchids1.jpg', 'Orchids2.jpg', 'Orchids', 499, 250, 'Plants prized for their beautiful and unique flowers.', 1, '2024-01-17 01:48:12'),
-(70, 37, 'Sun Flower.jpg', 'Sun FLower1.jpg', 'Sun Flower2.jpg', 'Sun Flower', 338, 200, 'Pretty, bright yellow flowering plants known for their striking appearance.', 1, '2024-01-17 01:48:42'),
+(70, 37, 'Sun Flower.jpg', 'Sun FLower1.jpg', 'Sun Flower2.jpg', 'Sun Flower', 329, 200, 'Pretty, bright yellow flowering plants known for their striking appearance.', 1, '2024-01-27 11:50:48'),
 (71, 37, 'Venus Flytrap.jpg', 'Venus Flytrap1.jpg', 'Venus Flytrap2.jpg', 'Venus Flytrap', 0, 400, 'Each leaf has a flat stalk and ends in a trap.', 1, '2024-01-15 10:34:52'),
-(72, 42, 'Philodendron1.jpg', 'Chrysanthemum1.jpg', 'Chrysanthemum2.jpg', 'Lavender', 122, 123, '123', 1, '2024-01-21 02:56:02');
+(72, 42, 'Philodendron1.jpg', 'Chrysanthemum1.jpg', 'Chrysanthemum2.jpg', 'Lavender', 121, 123, '123', 1, '2024-01-27 10:09:55');
 
 -- --------------------------------------------------------
 
@@ -257,6 +256,7 @@ CREATE TABLE `transaction` (
   `seller_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
   `paymethod` int(11) NOT NULL,
   `image` text NOT NULL,
   `status` int(11) NOT NULL,
@@ -267,12 +267,14 @@ CREATE TABLE `transaction` (
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `customer_id`, `seller_id`, `product_id`, `amount`, `paymethod`, `image`, `status`, `date`) VALUES
-(14, 42, 39, 62, 300, 1, 'Chrysanthemum2.jpg', 1, '2024-01-17 05:09:32'),
-(15, 42, 39, 64, 360, 1, 'gcash.jpg', 0, '2024-01-17 05:09:34'),
-(17, 36, 37, 70, 200, 2, 'Chrysanthemum1.jpg', 2, '2024-01-17 10:08:21'),
-(18, 36, 37, 67, 250, 2, 'gcash.jpg', 4, '2024-01-17 09:53:18'),
-(20, 36, 42, 72, 123, 2, 'gcash.jpg', 1, '2024-01-21 02:56:37');
+INSERT INTO `transaction` (`id`, `customer_id`, `seller_id`, `product_id`, `amount`, `quantity`, `paymethod`, `image`, `status`, `date`) VALUES
+(17, 36, 37, 70, 200, 1, 2, 'Chrysanthemum1.jpg', 2, '2024-01-28 04:45:16'),
+(18, 36, 37, 67, 250, 1, 2, 'gcash.jpg', 4, '2024-01-28 04:45:14'),
+(20, 36, 42, 72, 123, 1, 2, 'gcash.jpg', 5, '2024-01-28 04:45:12'),
+(21, 36, 42, 72, 123, 1, 2, 'gcash.jpg', 1, '2024-01-27 10:10:21'),
+(22, 36, 39, 62, 1200, 4, 2, 'Spider Plant1.jpg', 0, '2024-01-27 10:13:32'),
+(23, 36, 37, 70, 1600, 8, 1, 'gcash.jpg', 0, '2024-01-27 10:14:00'),
+(24, 42, 37, 70, 200, 1, 2, 'Jasmine2.jpg', 0, '2024-01-27 11:50:48');
 
 -- --------------------------------------------------------
 
@@ -304,7 +306,7 @@ CREATE TABLE `user_table` (
 --
 
 INSERT INTO `user_table` (`id`, `name`, `email`, `password`, `role`, `status`, `disabled`, `image`, `qr_image`, `current_add`, `permanent_add`, `shop_name`, `contact_no`, `gender`, `birthday`, `created_date`) VALUES
-(36, 'Janah Darielyn Germo', 'jd@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 1, 0, 'jd.jpg', 'cod_qr.png', 'Dapitan Cordova', 'Cebu ', 'Unique Plants', '09999728571', 2, '2023-12-19', '2023-12-19 02:23:56'),
+(36, 'awtssss', 'jd@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 1, 0, 'myphoto.jpg', 'cod_qr.png', 'Dapitan Cordova', 'Cebu ', 'Unique Plants', '09999728571', 2, '2023-12-19', '2023-12-19 02:23:56'),
 (37, 'JD Seller', 'seller@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 2, 1, 0, 'jd.jpg', 'cod_qr.png', 'Cebu City', 'Inyuha Cebu CIty', 'Purplebox Garden', '0987654321', 2, '2023-12-19', '2023-12-19 02:25:58'),
 (38, 'JD Admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 0, 1, 0, 'janah.jpg', '', 'Cebu City', 'Cebu City', '', '09876521234', 2, '2023-12-19', '2023-12-19 02:27:15'),
 (39, 'Seller 2', 'seller1@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 2, 1, 0, 'jd.jpg', 'cod_qr.png', 'Cebu City', 'cebu', 'nice garden', '09876521234', 2, '2023-12-19', '2023-12-19 13:08:54'),
@@ -451,13 +453,13 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `my_cart`
 --
 ALTER TABLE `my_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -475,7 +477,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user_table`

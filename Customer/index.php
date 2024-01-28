@@ -274,7 +274,7 @@ $role = $_SESSION['id'];
                         <div class="mb-4">
                             <label class="block text-gray-700 font-bold mb-2">Message:</label>
                             <textarea name="reviewText" id="message" v-model="reviewText" class="w-full h-24 p-2 border rounded-lg"></textarea>
-                            <button @click="addReview" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Write Comment</button>
+                            <button @click="addReview" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Type Message</button>
                         </div>
                       </div>
                     </div>

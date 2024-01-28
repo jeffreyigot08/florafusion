@@ -10,8 +10,11 @@ $(document).ready(function () {
 
                 child.innerHTML = `
                     <tr>
+                    <td>${item.pid}</td>
                     <td scope="row"><img class="rounded" style="height:100px; width:150px; object-fit:cover !important;"  src="../assets/img/${item.product_image}"></td>
                     <td>${item.product_name}</td>
+                    <td>${item.description}</td>
+                    <td>${item.product_price}</td>
                     <td>${item.product_qty}</td>
                     <td>
                     <button class="btn btn-primary updateprod" data-id="${item.pid}" data-bs-toggle="modal" data-bs-target="#updateproduct">
@@ -31,7 +34,7 @@ $(document).ready(function () {
                 "paging": true,
                 "searching": true,
                 "lengthMenu": [10, 25, 50, 100],
-                "order": [[0, 'asc']]
+                "order": [[0, 'decs']]
             });
         });
 });
@@ -141,6 +144,9 @@ $(document).on('click', '.updateprod', function () {
                 var upprices = document.querySelector('.upprice');
                 upprices.value = item.product_price;
 
+                var descs = document.querySelector('.updesc');
+                descs.value = item.product_des;
+
                 var upquantitys = document.querySelector('.upquantity');
                 upquantitys.value = item.product_qty;
 
@@ -148,15 +154,15 @@ $(document).on('click', '.updateprod', function () {
                 upquantitys.value = item.product_qty;
 
                 // not function 
-                var upimages = document.querySelector('.upimage');
-                upimages.value = item.product_image;
-                var upimages = document.querySelector('.upimage2');
-                upimages2.value = item.product_image2;
-                var upimages = document.querySelector('.upimage3');
+                 var upimages = document.querySelector('.upimage');
+                    upimages.value = item.product_image;
+
+                var upimages2 = document.querySelector('.upimage2');
+                    upimages2.value = item.product_image2;
+
+                var upimages3 = document.querySelector('.upimage3');
                 upimages3.value = item.product_image3;
 
-                var updescs = document.querySelector('.updesc');
-                updescs.value = item.product_des;
 
             });
 
