@@ -84,9 +84,9 @@ $role = $_SESSION['id'];
                     <table id="ordersTable">
                         <thead>
                             <tr>
-                            <th>Order Number</th>
+                            <th>Order ID</th>
                             <th>Order Image</th>
-                            <th>Name</th>
+                            <th>Customer Name</th>
                             <th>Date</th>
                             <th>Quantity</th>
                             <td>Amount</th>
@@ -99,12 +99,12 @@ $role = $_SESSION['id'];
                             <tr  v-for="(o, index) in orders">
                                 <td>{{index + 1}}</td>
                                 <td><img :src="'../assets/img/' + o.image"  width="100" height="100"></td>
-                                <td class="text-center">{{o.name}}</td>
+                                <td class="text-center"><span class="badge rounded-pill bg-primary">{{o.name}}</span></td>
                                 <td>{{o.date}}</td>
                                 <td>{{o.quantity}}</td>
                                 <td>{{o.amount}}</td>
                                 <td>{{o.payment == 1 ? 'GCASH' : o.payment == 2 ? 'COD'  :  'NO PAYMENT'}}</td>
-                                <td><span class="badge rounded-pill bg-primary">{{o.status == 0 ? 'PENDING' : o.status == 1 ? 'Approved' : o.status == 2 ? 'PACKED' : o.status == 3 ? 'SHIPPED' : o.status == 4 ? 'ARRIVED'  :  'RECEIVE'}}</span></td>
+                                <td><span class="badge rounded-pill bg-success">{{o.status == 0 ? 'PENDING' : o.status == 1 ? 'Approved' : o.status == 2 ? 'PACKED' : o.status == 3 ? 'SHIPPED' : o.status == 4 ? 'ARRIVED'  :  'RECEIVE'}}</span></td>
                                 <td>
                                 <button class="btn view-order"  @click="fnGetDataProducts(o.id)" data-bs-toggle="modal" data-bs-target="#exampleModal">👁️</button>
                                 <button class="btn delete-order"  @click="DeleteOrders(o.id)">🗑️</button>

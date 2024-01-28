@@ -14,7 +14,7 @@ createApp({
     methods:{
         getHistory: function () {
             const params = new URLSearchParams(new URL(window.location.href).search);
-            const id = params.get("id");
+            const customerName = params.get("customerName");
             const ordermonth = params.get("ordermonth");
             const orderyear = params.get("orderyear");
             const vue = this;
@@ -28,9 +28,10 @@ createApp({
                     let totalPriceSum = 0;
         
                     for (var v of r.data) {
-                        if (v.customerId == id && v.ordermonth == ordermonth && v.orderyear == orderyear) {
+                        if (v.customerName == customerName && v.ordermonth == ordermonth && v.orderyear == orderyear) {
                             vue.history.push({
                                 name: v.product_name,
+                                cusname:v.customerName,
                                 qty: v.quantity,
                                 amount: v.total_amount,
                                 TP: v.totalPrice,
@@ -55,8 +56,8 @@ createApp({
                 });
         },
         
-        Customer(customerName,id,month, year) {
-            window.location.href = `sold_his.php?&customerName=${customerName}&id=${id}&ordermonth=${month}&orderyear=${year}`;
+        Customer(customerName,month, year) {
+            window.location.href = `sold_his.php?&customerName=${customerName}&ordermonth=${month}&orderyear=${year}`;
         },
         getSalesReport: function () {
             const vue = this;

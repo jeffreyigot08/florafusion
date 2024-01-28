@@ -16,15 +16,14 @@ $(document).ready(function () {
                     <td>${item.description}</td>
                     <td>${item.product_price}</td>
                     <td>${item.product_qty}</td>
+                    <td>${item.product_qty == 0 ? '<span class="badge bg-danger">Sold</span>' : '<span class="badge bg-success">Available</span>'}</td>
                     <td>
-                    <button class="btn btn-primary updateprod" data-id="${item.pid}" data-bs-toggle="modal" data-bs-target="#updateproduct">
-                      <i class="fas fa-edit"></i> 
-                    </button>
-                    <button class="btn btn-danger deleteprod" data-id="${item.pid}">
-                      <i class="fas fa-trash-alt"></i> 
-                    </button>
+                    <div class="flex justify-between items-center space-x-1">
+                      <button class="btn btn-primary updateprod" data-id="${item.pid}" data-bs-toggle="modal" data-bs-target="#updateproduct"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger deleteprod" data-id="${item.pid}"><i class="fas fa-trash-alt"></i></button>
+                    </div>
                   </td>
-                  
+                        
                     </tr>
                     `;
 

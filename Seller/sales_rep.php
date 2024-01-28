@@ -84,16 +84,14 @@ $role = $_SESSION['role'];
                             <th class="py-2 px-4 text-left">MONTH</th>
                             <th class="py-2 px-4 text-left">YEAR</th>
                             <th class="py-2 px-4 text-left">ACTION</th>
-                            <!-- <th class="py-2 px-4 text-left">Date</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b" v-for="sp in salesReport">
-                            <td class="py-2 px-4">{{ sp.name }}</td>
+                        <tr v-for="sp in salesReport">
+                            <td><span class="badge bg-success py-2 px-4">{{ sp.name }}</span></td>
                             <td class="py-2 px-4">{{ sp.month }}</td>
                             <td class="py-2 px-4">{{ sp.year }}</td>
-                            <td class="py-2 px-4"><a @click="Customer(sp.name,sp.id,sp.month,sp.year)"class="btn btn-success">VIEW</a></td>
-                            <!-- <td class="py-2 px-4">{{ h.date }}</td> -->
+                            <td class="py-2 px-4"><a @click="Customer(sp.name,sp.month,sp.year)"class="btn btn-success">VIEW</a></td>
                         </tr>
                     </tbody>
                 </table>

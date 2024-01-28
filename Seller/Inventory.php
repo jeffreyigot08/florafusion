@@ -93,6 +93,7 @@ $role = $_SESSION['role'];
                         <th scope="col">Plant Description</th>
                         <th scope="col">Plant Price</th>
                         <th scope="col">Total Plant</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>

@@ -206,7 +206,7 @@ class data
     // orders.php
     public function displayOrdersseller()
     {
-        return "SELECT t.quantity,u.name AS order_name,u.name AS user_name,u.contact_no,u.current_add,t.quantity as order_quantity,t.id,t.date,t.amount,t.paymethod,t.status,p.product_image AS product_image, t.image as paymentImage, p.product_name
+        return "SELECT t.quantity,u.image as profile_image,u.name AS order_name,u.name AS user_name,u.contact_no,u.current_add,t.quantity as order_quantity,t.id,t.date,t.amount,t.paymethod,t.status,p.product_image AS product_image, t.image as paymentImage, p.product_name
         FROM `transaction` AS t
         INNER JOIN user_table AS u ON t.customer_id = u.id
         INNER JOIN products AS p ON t.product_id = p.product_ID
@@ -304,13 +304,11 @@ class data
         AS ordermonth,YEAR(o.order_date) AS orderyear,
         COUNT(u.id) as CountOneCustomerID,
         COUNT(o.order_date) AS sameOrderMonth,
-        COUNT(p.product_ID - m.quantity) AS unitSOld,
         SUM(o.total_amount) AS total_amount,
         o.customer_id as customerId
         FROM orders as o 
         INNER JOIN user_table as u ON o.customer_id = u.id 
         INNER JOIN products as p ON o.product_id = p.product_ID 
-        INNER JOIN my_cart AS m ON m.product_id = o.product_id 
         WHERE o.seller_id = ?
         GROUP BY u.id, MONTH(o.order_date),YEAR(o.order_date)
     ";
@@ -344,7 +342,7 @@ class data
     //INVENTORY DISPLAY PRODUCTS ADDED 
     public function displayInventory()
     {
-        return "SELECT p.product_name, p.product_qty,product_price,product_image , product_image2, product_image3,product_des as description, p.product_ID AS pid
+        return "SELECT p.status as product_status,p.product_name, p.product_qty,product_price,product_image , product_image2, product_image3,product_des as description, p.product_ID AS pid
             FROM products AS p
             INNER JOIN user_table AS u ON u.id = p.userID
             WHERE p.userID =  ? ";
@@ -390,22 +388,6 @@ class data
     ORDER BY
         MONTH(o.order_date)";
     }
-// public function getHisto()
-// {
-//     return " SELECT MONTHNAME(o.order_date) AS ordermonth,
-//     o.quantity, o.total_amount,p.product_name,
-//     (o.total_amount*o.quantity) AS totalPrice,
-//     u.id as customerId,o.orders_status,
-//     u.name as customerName,o.seller_id,
-//     (o.total_amount*o.quantity) AS totalPrice,
-//     SUM(o.total_amount) AS total_amount,
-//     YEAR(o.order_date) AS orderYear
-//     FROM orders AS o 
-//     INNER JOIN user_table AS u ON o.customer_id = u.id 
-//     INNER JOIN products AS p ON o.product_id = p.product_ID
-//     WHERE o.seller_id = ?
-//     AND o.orders_status IN (0 , 1, 2, 3, 4 , 5)";
-// }
     public function getHisto()
     {
         return "SELECT p.product_ID, p.product_name, o.quantity, o.total_amount, (o.total_amount*o.quantity) AS totalPrice,p.product_image,
